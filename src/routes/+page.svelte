@@ -3,72 +3,90 @@
     import { onMount } from 'svelte';
     import * as THREE from 'three';
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
-    
-    let innerWidth: number;
-    let innerHeight: number;
-
-    const scene = new THREE.Scene();
-
-    // Create a light source.
-    let light = new THREE.SpotLight(undefined, 2.5);
-    light.position.z = 10;
-    scene.add(light);
+    //import { DRACOLoader } from "three/examples/jsm/loaders/DRACOLoader";
+    import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
   
     onMount(() => {
 
-        // Create a new Camera
-        let camera = new THREE.PerspectiveCamera(35, innerWidth / innerHeight, 0.1, 1000);
-        camera.position.z = 6;
+        let mixer: THREE.AnimationMixer;
+        const clock = new THREE.Clock();
 
-        const canvas = document.querySelector('#canvas')!;
+        const canvas: HTMLElement = document.querySelector('#canvas')!;
+        const container: HTMLElement = document.querySelector('.container')!;
+
+        // Create renderer.
+        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+	    renderer.setPixelRatio( window.devicePixelRatio );
+	    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+	    renderer.outputEncoding = THREE.sRGBEncoding;
+
+        // Create scene.
+        const scene = new THREE.Scene();
+		//scene.background = new THREE.Color(0xbfe3dd);
+
+        // Create a new camera.
+        const camera = new THREE.PerspectiveCamera(40, canvas.clientWidth / canvas.clientHeight, 1, 100);
+		camera.position.set(3, 1, 4);
+
+        // Create a directional light.
+        const directLight = new THREE.DirectionalLight(0xffffff);
+	    directLight.position.set(3, 10, 10);
+        scene.add(directLight);
         
-        // Create a new Renderer
-        const renderer = new THREE.WebGLRenderer({ 
-            canvas, 
-            alpha: true, 
-            antialias: true 
-        });
-        renderer.setSize(canvas.clientWidth*1.3, canvas.clientHeight*1.3);
+        // Create controls.
+        const controls = new OrbitControls(camera, renderer.domElement);
+		controls.target.set(0, 0.5, 0);
+		controls.update();
+		controls.enablePan = true;
+		controls.enableDamping = true;
 
-        let loadedModel: THREE.Object3D | undefined;
+        //const dracoLoader = new DRACOLoader();
+		//dracoLoader.setDecoderPath('TODO');
 
-        // Load an exported model.
         const loader = new GLTFLoader();
-        loader.load('./fox.glb', (gltf) => {
+		//loader.setDRACOLoader(dracoLoader);
 
-            loadedModel = gltf.scene.getObjectByName('Cube');
+        loader.load('./bot.glb', (gltf) => {
+            const model = gltf.scene;
+            scene.add(model);
 
-            if (loadedModel) {
-                scene.add(loadedModel);
-            }
-        }, undefined, (error: ErrorEvent) => {
-            console.error(error);
+            mixer = new THREE.AnimationMixer(model);
+            console.log("Number of animations: " + gltf.animations.length);
+
+            gltf.animations.forEach((animation) => {
+                mixer.clipAction(animation).play();
+            });
+
+            animate();
+        }, undefined, (e: ErrorEvent) => {
+            console.error(e);
         });
+
+        window.onresize = function () {
+
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+			camera.updateProjectionMatrix();
+
+			renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        };
         
-        // Render the scene
         function animate() {
             requestAnimationFrame(animate);
-        
-            if (loadedModel) {
-                loadedModel.rotation.y += 0.02;
-            }
 
+            const delta = clock.getDelta();
+			mixer.update( delta );
+
+            controls.update();
             renderer.render(scene, camera);
         }
-
-        animate();
-        
     });
 </script>
 
-
-<svelte:window bind:innerWidth={innerWidth} bind:innerHeight={innerHeight}/>
-
 <div class="flex flex-row">
-    <div class="basis-1/2 ml-4 mr-2 my-6 p-4">
-        <canvas id="canvas"/>
+    <div id="container" class="basis-1/2 ml-16 mr-2 my-6 p-4">
+        <canvas class="h-full w-full" id="canvas"/>
     </div>
-    <div class="basis-1/2 ml-2 mr-4 my-6 p-4">
+    <div class="basis-1/2 bg-cyan-100 ml-2 mr-16 my-6 p-4">
         <div class="flex flex-col">
             <h2 class="font-mont text-2xl mb-1.5">This Should Be a Fox</h2>
             <div class="text-base">But it is not. That is because I am bad at 3D modeling
