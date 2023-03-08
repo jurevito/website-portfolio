@@ -5,7 +5,7 @@ Repository for personal portfolio website using [Three.js](https://threejs.org/)
 The goal of this project is to create a **personal portfolio website** that uses 3D models and animations to make it more visually appealing. I would like to have at least one hand animated model on the website and a few static models which react to user movements (scrolling or moving a mouse). I will use following tutorials as inspiration and guidance:
 - [Build a Mindblowing 3D Portfolio Website - FireShip](https://www.youtube.com/watch?v=Q7AOvWpIVHU)
 - [Create a Room Portfolio with Three.js and Blender - 
-Andrew Woan](https://www.youtube.com/watch?v=Q7AOvWpIVHU)
+Andrew Woan](https://www.youtube.com/watch?v=rxTb9ys834w)
 
 ## Technologies
 - [SvelteKit](https://kit.svelte.dev/): a framework for building a website.
