@@ -5,30 +5,39 @@
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
     import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
+    let canvas: HTMLElement;
+
+    let raycaster = new THREE.Raycaster();
+    let pointer = new THREE.Vector2();
+
+    let idleActions: THREE.AnimationAction[];
+    let fallActions: THREE.AnimationAction[];
+
     onMount(() => {
+
+        canvas.addEventListener('click', onClick, false);
 
         let mixer: THREE.AnimationMixer;
         const clock = new THREE.Clock();
 
-        const canvas: HTMLElement = document.querySelector('#canvas')!;
-
         // Create renderer.
         const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
-	    renderer.setPixelRatio(window.devicePixelRatio);
-	    renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
         renderer.shadowMap.enabled = true;
-	    renderer.outputEncoding = THREE.sRGBEncoding;
+        renderer.outputEncoding = THREE.sRGBEncoding;
 
         // Create scene.
         const scene = new THREE.Scene();
 
         // Create a new camera.
-        const camera = new THREE.PerspectiveCamera(40, canvas.clientWidth / canvas.clientHeight, 1, 100);
-		camera.position.set(-4, 1, 5);
+        const camera = new THREE.PerspectiveCamera(30, canvas.clientWidth / canvas.clientHeight, 1, 100);
+        camera.position.set(-4, 0.5, 6);
+        camera.lookAt(0, 0.25, 0);
 
         // Create a directional light.
         const directLight = new THREE.DirectionalLight(0xffffff);
-	    directLight.position.set(3, 10, 10);
+        directLight.position.set(3, 10, 10);
         directLight.castShadow = true;
         scene.add(directLight);
 
@@ -37,11 +46,20 @@
         scene.add(ambientLight);
         
         // Create controls.
-        const controls = new OrbitControls(camera, renderer.domElement);
-		controls.target.set(0, 0.5, 0);
-		controls.update();
-		controls.enablePan = true;
-		controls.enableDamping = true;
+        //const controls = new OrbitControls(camera, renderer.domElement);
+        //controls.target.set(0, 0.5, 0);
+        //controls.update();
+        //controls.enablePan = true;
+        //controls.enableDamping = true;
+
+        // Create shadow catcher.
+        //const catcherPlane = new THREE.PlaneGeometry(5, 5);
+        //const catcherMaterial = new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.2 });
+        //const shadowCather = new THREE.Mesh(catcherPlane, catcherMaterial);
+        //shadowCather.receiveShadow = true;
+        //shadowCather.rotation.x = -Math.PI/2;
+        //shadowCather.position.y = -1.09;
+        //scene.add(shadowCather);
 
         const loader = new GLTFLoader();
         loader.load('./bot.glb', (gltf) => {
@@ -49,13 +67,21 @@
             scene.add(model);
 
             mixer = new THREE.AnimationMixer(model);
-            console.log("Number of animations: " + gltf.animations.length);
 
-            const idleActions = [gltf.animations[0], gltf.animations[4], gltf.animations[5]];
-            const fallActions = [gltf.animations[1], gltf.animations[3]];
+            idleActions = [gltf.animations[0], gltf.animations[4], gltf.animations[5]].map((animation) => {
+                let action = mixer.clipAction(animation);
+                return action;
+            });
+
+            fallActions = [gltf.animations[1], gltf.animations[3]].map((animation) => {
+                let action = mixer.clipAction(animation);
+                action.setLoop(THREE.LoopOnce, 1);
+                action.clampWhenFinished = true;
+                return action;
+            });
 
             idleActions.forEach((animation) => {
-                mixer.clipAction(animation).play();
+                animation.play();
             });
 
             animate();
@@ -64,30 +90,63 @@
         });
 
         window.onresize = function () {
-
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
-			camera.updateProjectionMatrix();
+            camera.updateProjectionMatrix();
 
-			renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
         };
         
         function animate() {
             requestAnimationFrame(animate);
 
             const delta = clock.getDelta();
-			mixer.update( delta );
+            mixer.update( delta );
 
-            controls.update();
+            //controls.update();
             renderer.render(scene, camera);
         }
+
+        function onClick(event: MouseEvent) {
+            let bounds = renderer.domElement.getBoundingClientRect();
+            pointer.x = ((event.clientX - bounds.left) / (bounds.right - bounds.left)) * 2 - 1;
+            pointer.y = -((event.clientY - bounds.top) / (bounds.bottom - bounds.top)) * 2 + 1;
+
+            raycaster.setFromCamera(pointer, camera);
+            let intersects = raycaster.intersectObjects(scene.children, true);
+            
+            if(intersects.length > 0) {
+                idleActions.forEach((animation) => {
+                    animation.stop();
+                });
+
+                mixer.timeScale = 1.5;
+                fallActions.forEach((animation) => {
+                    animation.play();
+                });
+
+                const onFinish = () => {
+
+                    mixer.timeScale = 1;
+                    fallActions.forEach((animation) => {
+                        animation.stop();
+                    });
+
+                    idleActions.forEach((animation) => {
+                        animation.play();
+                    });
+                };
+
+                mixer.addEventListener("finished", onFinish);
+            }
+        }   
     });
 </script>
 
 <div class="flex flex-row">
-    <div id="container" class="basis-1/2 bg-blue-200 ml-32 mr-2 my-6 p-4">
-        <canvas class="h-full w-full" id="canvas"/>
+    <div bind:this={container} class="basis-1/2 ml-24 mr-2 my-6 p-0">
+        <canvas bind:this={canvas} class="h-full w-full" id="canvas"/>
     </div>
-    <div class="basis-1/2 bg-red-200 ml-2 mr-32 my-6 p-4">
+    <div class="basis-1/2 ml-2 mr-24 my-6 p-4">
         <div class="flex flex-col">
             <h2 class="font-mont text-2xl mb-1.5">Machine Learning & Deep Learning</h2>
             <div class="text-base">Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor's thesis with title: Machine Learning on Medical Data Using Interpretable Models.
