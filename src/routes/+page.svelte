@@ -143,7 +143,7 @@
 </script>
 
 <div class="flex flex-row">
-    <div bind:this={container} class="basis-1/2 ml-24 mr-2 my-6 p-0">
+    <div class="basis-1/2 ml-24 mr-2 my-6 p-0">
         <canvas bind:this={canvas} class="h-full w-full" id="canvas"/>
     </div>
     <div class="basis-1/2 ml-2 mr-24 my-6 p-4">
