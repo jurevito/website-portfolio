@@ -6,6 +6,7 @@
     import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
     let canvas: HTMLElement;
+    let mouse = new THREE.Vector2();
 
     let raycaster = new THREE.Raycaster();
     let pointer = new THREE.Vector2();
@@ -13,8 +14,12 @@
     let idleActions: THREE.AnimationAction[];
     let fallActions: THREE.AnimationAction[];
 
-    onMount(() => {
+    function onMouseMove(event: MouseEvent) {
+        mouse.x = event.clientX;
+        mouse.y = event.clientY;
+    }
 
+    onMount(() => {
         canvas.addEventListener('click', onClick, false);
 
         let mixer: THREE.AnimationMixer;
@@ -32,7 +37,7 @@
 
         // Create a new camera.
         const camera = new THREE.PerspectiveCamera(30, canvas.clientWidth / canvas.clientHeight, 1, 100);
-        camera.position.set(-4, 0.5, 6);
+        camera.position.set(-4, 1.5, 6);
         camera.lookAt(0, 0.25, 0);
 
         // Create a directional light.
@@ -44,22 +49,6 @@
         // Create an ambient light.
         const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
         scene.add(ambientLight);
-        
-        // Create controls.
-        //const controls = new OrbitControls(camera, renderer.domElement);
-        //controls.target.set(0, 0.5, 0);
-        //controls.update();
-        //controls.enablePan = true;
-        //controls.enableDamping = true;
-
-        // Create shadow catcher.
-        //const catcherPlane = new THREE.PlaneGeometry(5, 5);
-        //const catcherMaterial = new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.2 });
-        //const shadowCather = new THREE.Mesh(catcherPlane, catcherMaterial);
-        //shadowCather.receiveShadow = true;
-        //shadowCather.rotation.x = -Math.PI/2;
-        //shadowCather.position.y = -1.09;
-        //scene.add(shadowCather);
 
         const loader = new GLTFLoader();
         loader.load('./bot.glb', (gltf) => {
@@ -102,7 +91,6 @@
             const delta = clock.getDelta();
             mixer.update( delta );
 
-            //controls.update();
             renderer.render(scene, camera);
         }
 
@@ -142,8 +130,8 @@
     });
 </script>
 
-<div class="flex flex-row">
-    <div class="basis-1/2 ml-24 mr-2 my-6 p-0">
+<div on:mousemove={onMouseMove} class="flex flex-row">
+    <div class="basis-1/2 ml-24 mr-2 my-6 p-4">
         <canvas bind:this={canvas} class="h-full w-full" id="canvas"/>
     </div>
     <div class="basis-1/2 ml-2 mr-24 my-6 p-4">
