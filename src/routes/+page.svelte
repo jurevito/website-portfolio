@@ -39,7 +39,7 @@
         const clock = new THREE.Clock();
 
         // Create renderer.
-        const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+        const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(canvas.clientWidth, canvas.clientHeight);
         renderer.shadowMap.enabled = true;
@@ -91,7 +91,7 @@
             console.error(e);
         });
 
-        window.onresize = function () {
+        window.onresize = () => {
             camera.aspect = canvas.clientWidth / canvas.clientHeight;
             camera.updateProjectionMatrix();
 
@@ -159,7 +159,7 @@
 <h2 id="interests" class="text-4xl text-center m-4 mt-8">Interests</h2>
 <div on:mousemove={onMouseMove} class="flex flex-row">
     <div class="basis-1/2 ml-24 mr-2 my-2 p-3">
-        <canvas bind:this={canvas} class="h-full w-full" id="canvas"/>
+        <canvas bind:this={canvas} class="h-full w-full"/>
     </div>
     <div class="basis-1/2 ml-2 mr-24 my-2 p-3">
         <div class="flex flex-col">
