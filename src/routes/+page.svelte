@@ -3,6 +3,45 @@
     import { onMount } from 'svelte';
     import RobotCanvas from '../lib/RobotCanvas.svelte';
     import { Vector2 } from 'three';
+	import { each } from 'svelte/internal';
+
+    interface Experience {
+        position: string,
+        company: string,
+        type: string,
+
+        from: Date,
+        until: Date,
+
+        city: string,
+        country: string,
+
+        skills: string[],
+    }
+
+    const exp1: Experience = {
+		position: 'Software Engineer',
+        company: 'Globus Marine International',
+		type: 'Intership',
+		from: new Date('2021-04-01'),
+		until: new Date('2021-06-25'),
+		city: 'Ljubljana',
+		country: 'Slovenia',
+		skills: ['C#', '.NET', 'SQL Server'],
+	};
+
+    const exp2: Experience = {
+		position: 'Coffee Maker',
+        company: 'Imaginary Job',
+		type: 'CEO',
+		from: new Date('2035-01-01'),
+		until: new Date('2038-12-25'),
+		city: 'Krakow',
+		country: 'Poland',
+		skills: ['Coffee', 'Rust', 'C++'],
+	};
+
+    let exps = [exp1, exp2];
 
     let mouse = new Vector2();
 
@@ -40,7 +79,7 @@
     </nav>
 
 
-    <h2 id="interests" class="text-4xl text-center m-4 mt-8">Interests</h2>
+    <h2 id="interests" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Interests</h2>
     <div class="flex flex-row">
         <div class="basis-1/2 ml-24 mr-2 my-2 p-3">
             <RobotCanvas mouse={mouse}/>
@@ -54,9 +93,17 @@
         </div>
     </div>
 
-    <h2 id="experiences" class="text-4xl text-center m-4 mt-8">Experiences</h2>
-    <p class="mx-16 my-4">Lorem ipsum</p>
+    <h2 id="experiences" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Experiences</h2>
+    {#each exps as exp}
+    <div class="text-center mx-16 my-4 p-4">
+        <div class="text-gray-800 text-xl font-semibold">{exp.position}</div>
+        <div class="text-gray-800 text-lg italic">{exp.company} • {exp.type}</div>
+        <div class="text-gray-500 text-sm">{exp.from.toLocaleString('default', { month: 'short', year: 'numeric' })} - {exp.until.toLocaleString('default', { month: 'short', year: 'numeric' })}</div>
+        <div class="text-gray-500 text-sm">{exp.city}, {exp.country}</div>
+        <div class="text-gray-700 text-sm font-semibold">{exp.skills.join(' • ')}</div>
+    </div>
+    {/each}
 
-    <h2 id="contact" class="text-4xl text-center m-4 mt-8">Contact</h2>
+    <h2 id="contact" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Contact</h2>
     <p class="mx-16 my-4">Lorem ipsum</p>
 </div>
