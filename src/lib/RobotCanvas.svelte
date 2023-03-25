@@ -41,11 +41,27 @@
         scene.add(directLight);
 
         // Create an ambient light.
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
         scene.add(ambientLight);
+
+        // Add shadow catcher.
+        const catcherPlane = new THREE.PlaneGeometry(15, 15);
+        const catcherMaterial = new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.5 });
+        const shadowCather = new THREE.Mesh(catcherPlane, catcherMaterial);
+        shadowCather.receiveShadow = true;
+        shadowCather.rotation.x = -Math.PI/2;
+        shadowCather.position.y = -1.09;
+        scene.add(shadowCather);
 
         const loader = new GLTFLoader();
         loader.load('./bot.glb', (gltf) => {
+            
+            gltf.scene.traverse((node) => {
+                if (node.isObject3D) { 
+                    node.castShadow = true; 
+                }
+            });
+
             const model = gltf.scene;
             scene.add(model);
 
