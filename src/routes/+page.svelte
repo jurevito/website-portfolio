@@ -78,7 +78,7 @@
     <!-- Contact -->
     <h2 id="contact" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Contact</h2>
     <div class="flex flex-row">
-        <div class="basis-1/3 ml-24 mr-2 my-3 p-3">
+        <div class="basis-1/3 flex items-center justify-center ml-24 mr-2 my-3 p-3">
             <img class="rounded-full w-2/3" alt="profile" src="profile-pic.png">
         </div>
         <div class="basis-2/3 ml-2 mr-24 my-3 p-3">
@@ -87,6 +87,23 @@
                 <span class="italic">"Simulation of molecular docking using deep learning"</span>.
                 My hobbies include 3D modeling, lifting weights and traveling.
             </div>
+        </div>
+    </div>
+    <div class="flex flex-row text-center mb-12 mx-32 px-6">
+        <div class="basis-1/3 flex items-center justify-center">
+            <a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
+                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="github" src="icon-github.svg">
+            </a>
+        </div>
+        <div class="basis-1/3 flex items-center justify-center">
+            <a href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
+                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="linkedin" src="icon-linkedin.svg">
+            </a>
+        </div>
+        <div class="basis-1/3 flex items-center justify-center">
+            <a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
+                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="mail" src="icon-mail.svg">
+            </a>
         </div>
     </div>
 </div>
