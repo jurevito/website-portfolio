@@ -42,7 +42,7 @@
 
             <div class="flex items-center">
                 <button on:click={() => {scrollToSection('interests')}} class="text-gray-400 hover:text-white mx-4">Interests</button>
-                <button on:click={() => {scrollToSection('experiences')}} class="text-gray-400 hover:text-white mx-4">Experiences</button>
+                <button on:click={() => {scrollToSection('experience')}} class="text-gray-400 hover:text-white mx-4">Experience</button>
                 <button on:click={() => {scrollToSection('contact')}} class="text-gray-400 hover:text-white mx-4">Contact</button>
             </div>
         </div>
@@ -63,8 +63,8 @@
         </div>
     </div>
 
-    <!-- Experiences -->
-    <h2 id="experiences" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Experiences</h2>
+    <!-- Experience -->
+    <h2 id="experience" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Experience</h2>
     {#each exps as exp}
     <div class="text-center mx-16 my-4 p-4">
         <div class="text-gray-800 text-xl font-semibold">{exp.position}</div>
@@ -92,17 +92,17 @@
     <div class="flex flex-row text-center mb-12 mx-32 px-6">
         <div class="basis-1/3 flex items-center justify-center">
             <a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
-                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="github" src="icon-github.svg">
+                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="github" src="icons/icon-github.svg">
             </a>
         </div>
         <div class="basis-1/3 flex items-center justify-center">
             <a href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
-                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="linkedin" src="icon-linkedin.svg">
+                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="linkedin" src="icons/icon-linkedin.svg">
             </a>
         </div>
         <div class="basis-1/3 flex items-center justify-center">
             <a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
-                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="mail" src="icon-mail.svg">
+                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="mail" src="icons/icon-mail.svg">
             </a>
         </div>
     </div>
