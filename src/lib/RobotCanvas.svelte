@@ -52,9 +52,9 @@
         shadowCather.rotation.x = -Math.PI/2;
         shadowCather.position.y = -1.09;
         scene.add(shadowCather);
-
+        
         const loader = new GLTFLoader();
-        loader.load('./bot.glb', (gltf) => {
+        loader.load('./models/bot.glb', (gltf) => {
             
             gltf.scene.traverse((node) => {
                 if (node.isObject3D) { 
