@@ -4,7 +4,7 @@ interface Experience {
     type: string,
 
     from: Date,
-    until: Date,
+    until: Date | 'Present',
 
     city: string,
     country: string,
@@ -24,14 +24,14 @@ const exp1: Experience = {
 };
 
 const exp2: Experience = {
-    position: 'Banana Picker',
-    company: 'Imaginary Job',
-    type: 'CEO',
-    from: new Date('2035-01-01'),
-    until: new Date('2038-12-25'),
+    position: 'Data Scientist',
+    company: 'DikinBaws',
+    type: 'Full Time',
+    from: new Date('2022-02-01'),
+    until: 'Present',
     city: 'Krakow',
     country: 'Poland',
-    skills: ['Coffee', 'Rust', 'C++'],
+    skills: ['Python', 'PyTorch', 'ScikitLearn'],
 };
 
 const exps: Experience[] = [exp1, exp2];
