@@ -4,6 +4,7 @@
     import RobotCanvas from '../lib/RobotCanvas.svelte';
     import { Vector2 } from 'three';
     import { exps } from '../lib/Experience';
+	import GiantCanvas from '$lib/GiantCanvas.svelte';
 
     let mouse = new Vector2();
 
@@ -50,16 +51,29 @@
 
     <!-- Interests -->
     <h2 id="interests" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Interests</h2>
-    <div class="flex flex-row">
-        <div class="basis-1/2 ml-24 mr-2 my-2 p-3">
+    <div class="flex flex-row my-8 mx-12 py-8">
+        <div class="basis-3/5 mx-2 my-2 p-2">
             <RobotCanvas mouse={mouse}/>
         </div>
-        <div class="basis-1/2 ml-2 mr-24 my-2 p-3">
+        <div class="basis-2/5 mx-2 my-2 p-2">
             <div class="flex flex-col">
                 <h2 class="font-mont text-2xl mb-1.5">Machine Learning & Deep Learning</h2>
                 <div class="text-base">Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor's thesis with title: Machine Learning on Medical Data Using Interpretable Models.
                 </div>
             </div>
+        </div>
+    </div>
+
+    <div class="flex flex-row my-8 mx-12 py-8">
+        <div class="basis-2/5 mx-2 my-2 p-3">
+            <div class="flex flex-col">
+                <h2 class="font-mont text-2xl mb-1.5">Computer Graphics</h2>
+                <div class="text-base">Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor's degree, I made the decision to enroll in the program.
+                </div>
+            </div>
+        </div>
+        <div class="basis-3/5 mx-2 my-2 p-2">
+            <GiantCanvas/>
         </div>
     </div>
 
