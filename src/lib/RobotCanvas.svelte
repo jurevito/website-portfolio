@@ -5,7 +5,8 @@
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
     export let mouse = new THREE.Vector2();
-    let canvas: HTMLElement;
+    export let parent: HTMLDivElement;
+    let canvas: HTMLCanvasElement;
 
     let raycaster = new THREE.Raycaster();
     let pointer = new THREE.Vector2();
