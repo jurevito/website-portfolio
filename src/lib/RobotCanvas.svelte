@@ -15,7 +15,8 @@
     let fallActions: THREE.AnimationAction[];
 
     onMount(() => {
-        canvas.addEventListener('click', onClick, false);
+        canvas.addEventListener('click', onClick);
+        window.addEventListener('resize', handleResize)
 
         let mixer: THREE.AnimationMixer;
         const clock = new THREE.Clock();
@@ -88,13 +89,6 @@
         }, undefined, (e: ErrorEvent) => {
             console.error(e);
         });
-
-        window.onresize = () => {
-            camera.aspect = canvas.clientWidth / canvas.clientHeight;
-            camera.updateProjectionMatrix();
-
-            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-        };
         
         function animate() {
             requestAnimationFrame(animate);
@@ -104,6 +98,14 @@
 
             renderer.render(scene, camera);
         }
+
+        function handleResize() {
+            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            
+        };
 
         function onClick(event: MouseEvent) {
             let bounds = renderer.domElement.getBoundingClientRect();
