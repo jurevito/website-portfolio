@@ -7,6 +7,7 @@
 	import GiantCanvas from '$lib/GiantCanvas.svelte';
 
     let mouse = new Vector2();
+    let robotContainer: HTMLDivElement;
 
     // Find my current age.
     const today = new Date().getTime();
@@ -50,74 +51,80 @@
     </nav>
 
     <!-- Interests -->
-    <h2 id="interests" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Interests</h2>
-    <div class="flex flex-row my-8 mx-12 py-8">
-        <div class="basis-3/5 mx-2 my-2 p-2">
-            <RobotCanvas mouse={mouse}/>
-        </div>
-        <div class="basis-2/5 mx-2 my-2 p-2">
-            <div class="flex flex-col">
-                <h2 class="font-mont text-2xl mb-1.5">Machine Learning & Deep Learning</h2>
-                <div class="text-base">Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor's thesis with title: Machine Learning on Medical Data Using Interpretable Models.
+    <div class="mx-8 my-8">
+        <h2 id="interests" class="font-mont font-semibold text-4xl text-center m-2 p-2">Interests</h2>
+        <div class="flex flex-col my-10 max-w-4xl mx-auto sm:flex-row">
+            <div bind:this={robotContainer} class="basis-3/5">
+                <RobotCanvas mouse={mouse} parent={robotContainer}/>
+            </div>
+            <div class="basis-2/5">
+                <div class="flex flex-col">
+                    <h2 class="font-mont text-2xl my-2">Machine Learning & Deep Learning</h2>
+                    <div class="text-base">Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor's thesis with title: Machine Learning on Medical Data Using Interpretable Models.
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <div class="flex flex-row my-8 mx-12 py-8">
-        <div class="basis-2/5 mx-2 my-2 p-3">
-            <div class="flex flex-col">
-                <h2 class="font-mont text-2xl mb-1.5">Computer Graphics</h2>
-                <div class="text-base">Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor's degree, I made the decision to enroll in the program.
+        <div class="flex flex-col my-10 mx-auto max-w-4xl sm:flex-row-reverse">
+            <div class="basis-3/5">
+                <GiantCanvas/>
+            </div>
+            <div class="basis-2/5">
+                <div class="flex flex-col">
+                    <h2 class="font-mont text-2xl my-2">Computer Graphics</h2>
+                    <div class="text-base">Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor's degree, I made the decision to enroll in the program.
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="basis-3/5 mx-2 my-2 p-2">
-            <GiantCanvas/>
         </div>
     </div>
 
     <!-- Experience -->
-    <h2 id="experience" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Experience</h2>
-    {#each exps as exp}
-    <div class="text-center mx-16 my-4 p-4">
-        <div class="text-gray-800 text-xl font-semibold">{exp.position}</div>
-        <div class="text-gray-800 text-lg italic">{exp.company} • {exp.type}</div>
-        <div class="text-gray-500 text-sm">{exp.from.toLocaleString('default', { month: 'short', year: 'numeric' })} - {exp.until.toLocaleString('default', { month: 'short', year: 'numeric' })}</div>
-        <div class="text-gray-500 text-sm">{exp.city}, {exp.country}</div>
-        <div class="text-gray-800 text-sm font-semibold">{exp.skills.join(' • ')}</div>
+    <div class="mx-8 my-8">
+        <h2 id="experience" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Experience</h2>
+        {#each exps as exp}
+        <div class="text-center mx-16 my-4 p-4">
+            <div class="text-gray-800 text-xl font-semibold">{exp.position}</div>
+            <div class="text-gray-800 text-lg italic">{exp.company} • {exp.type}</div>
+            <div class="text-gray-500 text-sm">{exp.from.toLocaleString('default', { month: 'short', year: 'numeric' })} - {exp.until.toLocaleString('default', { month: 'short', year: 'numeric' })}</div>
+            <div class="text-gray-500 text-sm">{exp.city}, {exp.country}</div>
+            <div class="text-gray-800 text-sm font-semibold">{exp.skills.join(' • ')}</div>
+        </div>
+        {/each}
     </div>
-    {/each}
 
     <!-- Contact -->
-    <h2 id="contact" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Contact</h2>
-    <div class="flex flex-row">
-        <div class="basis-1/3 flex items-center justify-center ml-24 mr-2 my-3 p-3">
-            <img class="rounded-full w-2/3" alt="profile" src="profile-pic.png">
-        </div>
-        <div class="basis-2/3 ml-2 mr-24 my-3 p-3">
-            <div class="text-base">I am {age} years old student at the Faculty of Computer and Information Science in Ljubljana. 
-                Currently I am currently doing my master's thesis with title 
-                <span class="italic">"Simulation of molecular docking using deep learning"</span>.
-                My hobbies include 3D modeling, lifting weights and traveling.
+    <div class="mx-8 my-8">
+        <h2 id="contact" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Contact</h2>
+        <div class="flex flex-col my-5 mx-auto max-w-4xl sm:flex-row">
+            <div class="basis-1/2 flex items-center justify-center my-5">
+                <img class="rounded-full w-2/3" alt="profile" src="pics/me.jpg">
+            </div>
+            <div class="basis-1/2 my-5">
+                <div class="text-base">I am {age} years old student at the Faculty of Computer and Information Science in Ljubljana. 
+                    Currently I am currently doing my master's thesis with title 
+                    <span class="italic">"Simulation of molecular docking using deep learning"</span>.
+                    My hobbies include 3D modeling, lifting weights and traveling.
+                </div>
             </div>
         </div>
-    </div>
-    <div class="flex flex-row text-center mb-12 mx-32 px-6">
-        <div class="basis-1/3 flex items-center justify-center">
-            <a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
-                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="github" src="icons/icon-github.svg">
-            </a>
-        </div>
-        <div class="basis-1/3 flex items-center justify-center">
-            <a href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
-                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="linkedin" src="icons/icon-linkedin.svg">
-            </a>
-        </div>
-        <div class="basis-1/3 flex items-center justify-center">
-            <a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
-                <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="mail" src="icons/icon-mail.svg">
-            </a>
+        <div class="flex flex-row text-center mx-auto max-w-4xl">
+            <div class="basis-1/3 flex items-center justify-center">
+                <a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
+                    <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="github" src="icons/icon-github.svg">
+                </a>
+            </div>
+            <div class="basis-1/3 flex items-center justify-center">
+                <a href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
+                    <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="linkedin" src="icons/icon-linkedin.svg">
+                </a>
+            </div>
+            <div class="basis-1/3 flex items-center justify-center">
+                <a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
+                    <img class="w-12 h-12 opacity-90 hover:opacity-70" alt="mail" src="icons/icon-mail.svg">
+                </a>
+            </div>
         </div>
     </div>
 </div>
