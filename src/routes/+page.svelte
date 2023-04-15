@@ -59,7 +59,7 @@
             </div>
             <div class="basis-2/5">
                 <div class="flex flex-col">
-                    <h2 class="font-mont w-fit text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em] group-active:bg-[length:100%_0.1em]">Machine Learning</h2>
+                    <h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em] group-active:bg-[length:100%_0.1em]">Machine Learning</h2>
                     <div class="text-base">Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor's thesis with title: Machine Learning on Medical Data Using Interpretable Models.
                     </div>
                 </div>
@@ -72,7 +72,7 @@
             </div>
             <div class="basis-2/5">
                 <div class="flex flex-col">
-                    <h2 class="font-mont w-fit text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Computer Graphics</h2>
+                    <h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Computer Graphics</h2>
                     <div class="text-base">Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor's degree, I made the decision to enroll in the program.
                     </div>
                 </div>
