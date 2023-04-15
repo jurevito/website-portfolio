@@ -9,6 +9,9 @@ const config = {
 			fontFamily: {
 				opensans: ['"Open Sans"', ...defaultTheme.fontFamily.sans],
 				mont: ['"Montserrat"', ...defaultTheme.fontFamily.sans]
+			},
+			transitionProperty: {
+				size: 'background-size',
 			}
 		}
 	},

@@ -53,26 +53,26 @@
     <!-- Interests -->
     <div class="mx-8 my-8">
         <h2 id="interests" class="font-mont font-semibold text-4xl text-center m-2 p-2">Interests</h2>
-        <div class="flex flex-col my-10 max-w-4xl mx-auto sm:flex-row">
+        <div class="group flex flex-col my-10 max-w-4xl mx-auto sm:flex-row group">
             <div bind:this={robotContainer} class="basis-3/5">
                 <RobotCanvas mouse={mouse} parent={robotContainer}/>
             </div>
             <div class="basis-2/5">
                 <div class="flex flex-col">
-                    <h2 class="font-mont text-2xl my-2">Machine Learning & Deep Learning</h2>
+                    <h2 class="font-mont w-fit text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em] group-active:bg-[length:100%_0.1em]">Machine Learning</h2>
                     <div class="text-base">Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor's thesis with title: Machine Learning on Medical Data Using Interpretable Models.
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="flex flex-col my-10 mx-auto max-w-4xl sm:flex-row-reverse">
+        <div class="group flex flex-col my-10 max-w-4xl mx-auto sm:flex-row-reverse">
             <div class="basis-3/5">
                 <GiantCanvas/>
             </div>
             <div class="basis-2/5">
                 <div class="flex flex-col">
-                    <h2 class="font-mont text-2xl my-2">Computer Graphics</h2>
+                    <h2 class="font-mont w-fit text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Computer Graphics</h2>
                     <div class="text-base">Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor's degree, I made the decision to enroll in the program.
                     </div>
                 </div>
