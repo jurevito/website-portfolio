@@ -33,19 +33,30 @@
         })
     }
 
+    let expandNav: boolean = false;
+
+    function expandMenu() {
+        console.log('Expending the menu.');
+    }
+
 </script>
 
 <div on:mousemove={onMouseMove}>
 
     <!-- Navigation -->
     <nav class="bg-gray-800 py-3 px-4">
-        <div class="flex items-center justify-between">
-            <a href="/" class="text-white">Jure Vito Srovin</a>
+        <div class="flex flex-col sm:flex-row items-center justify-between">
+            <div class="flex items-center justify-between w-full">
+                <a href="/" class="text-gray-300">Jure Vito Srovin</a>
+                <button on:click={expandMenu} class="px-2 text-gray-300 hover:text-white sm:hidden">
+                    <i class="flex fa-solid fa-bars"></i>
+                </button>
+            </div>
 
-            <div class="flex items-center">
-                <button on:click={() => {scrollToSection('interests')}} class="text-gray-400 hover:text-white mx-4">Interests</button>
-                <button on:click={() => {scrollToSection('experience')}} class="text-gray-400 hover:text-white mx-4">Experience</button>
-                <button on:click={() => {scrollToSection('contact')}} class="text-gray-400 hover:text-white mx-4">Contact</button>
+            <div class="sm:flex hidden items-center flex-col sm:flex-row">
+                <button on:click={() => {scrollToSection('interests')}} class="text-gray-300 hover:text-white mx-4 my-2 sm:my-0">Interests</button>
+                <button on:click={() => {scrollToSection('experience')}} class="text-gray-300 hover:text-white mx-4 my-2 sm:my-0">Experience</button>
+                <button on:click={() => {scrollToSection('contact')}} class="text-gray-300 hover:text-white mx-4 my-2 sm:my-0">Contact</button>
             </div>
         </div>
     </nav>
@@ -59,7 +70,7 @@
             </div>
             <div class="basis-2/5">
                 <div class="flex flex-col">
-                    <h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-red-500 to-orange-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em] group-active:bg-[length:100%_0.1em]">Machine Learning</h2>
+                    <h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-red-500 to-amber-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em] group-active:bg-[length:100%_0.1em]">Machine Learning</h2>
                     <div class="text-base">Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor's thesis with title: Machine Learning on Medical Data Using Interpretable Models.
                     </div>
                 </div>
@@ -105,7 +116,7 @@
 
                 <!-- Description -->
                 <div class="text-base">I am {age} years old student at the Faculty of Computer and Information Science in Ljubljana. 
-                    Currently I am currently doing my master's thesis with title 
+                    Currently I am currently doing my master's thesis titled
                     <span class="italic">"Simulation of molecular docking using deep learning"</span>.
                     My hobbies include 3D modeling, lifting weights and traveling.
                 </div>
@@ -113,17 +124,17 @@
                 <!-- Contact Icons -->
                 <div class="flex flex-row text-center mx-auto my-8 max-w-4xl">
                     <div class="basis-1/3 flex items-center justify-center">
-                        <a class="p-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-stone-600 to-gray-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
+                        <a class="p-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-slate-600 to-zinc-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
                             <i class="fa-brands fa-github w-[1em] h-[1em]"></i> GitHub
                         </a>
                     </div>
                     <div class="basis-1/3 flex items-center justify-center">
                         <a class="p-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-blue-500 to-cyan-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
-                            <i class="fa-brands fa-linkedin w-[1em] h-[1em]"></i> Linkedin
+                            <i class="fa-brands fa-linkedin w-[1em] h-[1em]"></i> LinkedIn
                         </a>
                     </div>
                     <div class="basis-1/3 flex items-center justify-center">
-                        <a class="p-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
+                        <a class="p-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="mailto:jure.vito@gmail.com" target="_blank" rel="noreferrer">
                             <i class="fa-solid fa-inbox w-[1em] h-[1em]"></i> Email
                         </a>
                     </div>
