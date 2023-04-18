@@ -20,6 +20,9 @@
         mouse.y = event.clientY;
     }
 
+    let expandButton: HTMLButtonElement;
+    let sectionButtons: HTMLDivElement;
+
     function scrollToSection(sectionID: string) {
 
         const section = document.getElementById(sectionID)!;
@@ -33,10 +36,9 @@
         })
     }
 
-    let expandNav: boolean = false;
-
-    function expandMenu() {
-        console.log('Expending the menu.');
+    function toggleMenu() {
+        sectionButtons.classList.toggle('h-0')
+        sectionButtons.classList.toggle('h-36')
     }
 
 </script>
@@ -45,18 +47,18 @@
 
     <!-- Navigation -->
     <nav class="bg-gray-800 py-3 px-4">
-        <div class="flex flex-col sm:flex-row items-center justify-between">
+        <div class="flex flex-col sm:flex-row items-center justify-between font-mont font-bold">
             <div class="flex items-center justify-between w-full">
-                <a href="/" class="text-gray-300">Jure Vito Srovin</a>
-                <button on:click={expandMenu} class="px-2 text-gray-300 hover:text-white sm:hidden">
+                <a href="/" class="text-gray-200">Jure Vito Srovin</a>
+                <button bind:this={expandButton} on:click={toggleMenu} id="expand-btn" class="px-2 text-gray-300 hover:text-white sm:hidden">
                     <i class="flex fa-solid fa-bars"></i>
                 </button>
             </div>
 
-            <div class="sm:flex hidden items-center flex-col sm:flex-row">
-                <button on:click={() => {scrollToSection('interests')}} class="text-gray-300 hover:text-white mx-4 my-2 sm:my-0">Interests</button>
-                <button on:click={() => {scrollToSection('experience')}} class="text-gray-300 hover:text-white mx-4 my-2 sm:my-0">Experience</button>
-                <button on:click={() => {scrollToSection('contact')}} class="text-gray-300 hover:text-white mx-4 my-2 sm:my-0">Contact</button>
+            <div bind:this={sectionButtons} id="section-btns" class="flex w-full h-0 transition-all duration-10 overflow-hidden sm:overflow-visible justify-evenly items-center flex-col sm:flex-row">
+                <button on:click={() => {scrollToSection('interests')}} class="text-gray-300 hover:text-white mx-4">Interests</button>
+                <button on:click={() => {scrollToSection('experience')}} class="text-gray-300 hover:text-white mx-4">Experience</button>
+                <button on:click={() => {scrollToSection('contact')}} class="text-gray-300 hover:text-white mx-4">Contact</button>
             </div>
         </div>
     </nav>
