@@ -9,71 +9,82 @@
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,600;1,400;1,600&family=Open+Sans:ital,wght@0,300;0,600;1,300;1,600&display=swap" rel="stylesheet">
+
+		<!-- Icons -->
+		<script src="https://kit.fontawesome.com/dd003952a2.js" crossorigin="anonymous"></script>
+
 		<meta http-equiv="content-security-policy" content="">
-		<link href="./_app/immutable/assets/_layout.7d7d1d56.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.dbf9b9bf.js">
+		<link href="./_app/immutable/assets/_layout.beab2d87.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.1d39a1f4.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.29fdca04.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.168e149e.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.dad8ca2e.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/_layout.svelte.1015cc7c.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.bf04c7a6.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.29928618.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/_layout.svelte.4eb1a352.js">
 		<link rel="modulepreload" href="./_app/immutable/entry/_layout.js.984db11e.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/_layout.da46b06b.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/_page.svelte.a9a2fdd8.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/_page.svelte.62df31cd.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div class="font-opensans" style="display: contents">
 
 
 <div>
-    <nav class="bg-gray-800 py-3 px-4"><div class="flex items-center justify-between"><a href="/" class="text-white">Jure Vito Srovin</a>
+    <nav class="bg-gray-800 py-3 px-4"><div class="flex flex-col sm:flex-row items-center justify-between font-mont font-bold"><div class="flex items-center justify-between w-full"><a href="/" class="text-gray-200">Jure Vito Srovin</a>
+                <button id="expand-btn" class="px-2 text-gray-300 hover:text-white sm:hidden"><i class="flex fa-solid fa-bars"></i></button></div>
 
-            <div class="flex items-center"><button class="text-gray-400 hover:text-white mx-4">Interests</button>
-                <button class="text-gray-400 hover:text-white mx-4">Experience</button>
-                <button class="text-gray-400 hover:text-white mx-4">Contact</button></div></div></nav>
+            <div id="section-btns" class="flex w-full h-0 transition-all duration-10 overflow-hidden sm:overflow-visible justify-evenly items-center flex-col sm:flex-row"><button class="text-gray-300 hover:text-white mx-4">Interests</button>
+                <button class="text-gray-300 hover:text-white mx-4">Experience</button>
+                <button class="text-gray-300 hover:text-white mx-4">Contact</button></div></div></nav>
 
-    
-    <div class="mx-8 my-8"><h2 id="interests" class="font-mont font-semibold text-4xl text-center m-2 p-2">Interests</h2>
-        <div class="group flex flex-col my-10 max-w-4xl mx-auto sm:flex-row group"><div class="basis-3/5"><canvas class="h-full w-full"></canvas></div>
-            <div class="basis-2/5"><div class="flex flex-col"><h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em] group-active:bg-[length:100%_0.1em]">Machine Learning</h2>
-                    <div class="text-base">Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor&#39;s thesis with title: Machine Learning on Medical Data Using Interpretable Models.
-                    </div></div></div></div>
+    <div class="max-w-3xl w-4/5 mx-auto my-12">
+        <div class="my-8"><h2 id="interests" class="font-mont font-semibold text-4xl text-center m-2">Interests</h2>
+            <div class="group flex flex-col my-10 sm:flex-row group"><div class="basis-3/5"><canvas class="h-full w-full"></canvas></div>
+                <div class="basis-2/5"><div class="flex flex-col"><h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-red-500 to-amber-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em] group-active:bg-[length:100%_0.1em]">Machine Learning</h2>
+                        <div>Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor&#39;s thesis with title: Machine Learning on Medical Data Using Interpretable Models.
+                        </div></div></div></div>
 
-        <div class="group flex flex-col my-10 max-w-4xl mx-auto sm:flex-row-reverse"><div class="basis-3/5"><canvas class="h-full w-full"></canvas></div>
-            <div class="basis-2/5"><div class="flex flex-col"><h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center p-1 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Computer Graphics</h2>
-                    <div class="text-base">Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor&#39;s degree, I made the decision to enroll in the program.
-                    </div></div></div></div></div>
+            <div class="group flex flex-col my-10 sm:flex-row-reverse"><div class="basis-3/5"><canvas class="h-full w-full"></canvas></div>
+                <div class="basis-2/5"><div class="flex flex-col"><h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Computer Graphics</h2>
+                        <div>Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor&#39;s degree, I made the decision to enroll in the program.
+                        </div></div></div></div></div>
 
-    
-    <div class="mx-8 my-8"><h2 id="experience" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Experience</h2>
-        <div class="text-center mx-16 my-4 p-4"><div class="text-gray-800 text-xl font-semibold">Software Engineer</div>
-            <div class="text-gray-800 text-lg italic">Globus Marine International • Intership</div>
-            <div class="text-gray-500 text-sm">Apr 2021 - Jun 2021</div>
-            <div class="text-gray-500 text-sm">Ljubljana, Slovenia</div>
-            <div class="text-gray-800 text-sm font-semibold">C# • .NET • SQL Server</div>
-        </div><div class="text-center mx-16 my-4 p-4"><div class="text-gray-800 text-xl font-semibold">Data Scientist</div>
-            <div class="text-gray-800 text-lg italic">DikinBaws • Full Time</div>
-            <div class="text-gray-500 text-sm">Feb 2022 - Present</div>
-            <div class="text-gray-500 text-sm">Krakow, Poland</div>
-            <div class="text-gray-800 text-sm font-semibold">Python • PyTorch • ScikitLearn</div>
-        </div></div>
+        
+        <div class="my-8"><h2 id="experience" class="font-mont font-semibold text-4xl text-center m-2">Experience</h2>
+            <div class="text-center mx-16 my-4 p-4"><div class="text-gray-800 text-xl font-semibold">Software Engineer</div>
+                <div class="text-gray-800 text-lg italic">Globus Marine International • Intership</div>
+                <div class="text-gray-500 text-sm">Apr 2021 - Jun 2021</div>
+                <div class="text-gray-500 text-sm">Ljubljana, Slovenia</div>
+                <div class="text-gray-800 text-sm font-semibold">C# • .NET • SQL Server</div>
+            </div><div class="text-center mx-16 my-4 p-4"><div class="text-gray-800 text-xl font-semibold">Data Scientist</div>
+                <div class="text-gray-800 text-lg italic">DikinBaws • Full Time</div>
+                <div class="text-gray-500 text-sm">Feb 2022 - Present</div>
+                <div class="text-gray-500 text-sm">Krakow, Poland</div>
+                <div class="text-gray-800 text-sm font-semibold">Python • PyTorch • ScikitLearn</div>
+            </div></div>
 
-    
-    <div class="mx-8 my-8"><h2 id="contact" class="font-mont font-semibold text-4xl text-center m-4 mt-8">Contact</h2>
-        <div class="flex flex-col my-5 mx-auto max-w-4xl sm:flex-row"><div class="basis-1/2 flex items-center justify-center my-5"><img class="rounded-full w-2/3" alt="profile" src="pics/me.jpg"></div>
-            <div class="basis-1/2 my-5"><div class="text-base">I am 24 years old student at the Faculty of Computer and Information Science in Ljubljana. 
-                    Currently I am currently doing my master&#39;s thesis with title 
-                    <span class="italic">&quot;Simulation of molecular docking using deep learning&quot;</span>.
-                    My hobbies include 3D modeling, lifting weights and traveling.
-                </div></div></div>
-        <div class="flex flex-row text-center mx-auto max-w-4xl"><div class="basis-1/3 flex items-center justify-center"><a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer"><img class="w-12 h-12 opacity-90 hover:opacity-70" alt="github" src="icons/icon-github.svg"></a></div>
-            <div class="basis-1/3 flex items-center justify-center"><a href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer"><img class="w-12 h-12 opacity-90 hover:opacity-70" alt="linkedin" src="icons/icon-linkedin.svg"></a></div>
-            <div class="basis-1/3 flex items-center justify-center"><a href="https://www.github.com/jurevito" target="_blank" rel="noreferrer"><img class="w-12 h-12 opacity-90 hover:opacity-70" alt="mail" src="icons/icon-mail.svg"></a></div></div></div></div>
+        
+        <div class="my-8"><h2 id="contact" class="font-mont font-semibold text-4xl text-center m-2">Contact</h2>
+            <div class="flex flex-col my-5 sm:flex-row"><div class="basis-1/2 flex items-center justify-center my-5"><img class="rounded-full w-2/3" alt="profile" src="pics/me.jpg"></div>
+                <div class="basis-1/2 my-5">
+                    <div>I am 24 years old student at the Faculty of Computer and Information Science in Ljubljana. 
+                        Currently I am currently doing my master&#39;s thesis titled
+                        <span class="italic">&quot;Simulation of molecular docking using deep learning&quot;</span>.
+                        My hobbies include 3D modeling, lifting weights and traveling.
+                    </div>
+
+                    
+                    <div class="flex flex-row text-center my-8 max-w-4xl"><div class="basis-1/3 flex items-center justify-center"><a class="pb-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-slate-600 to-zinc-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer"><i class="fa-brands fa-github w-[1em] h-[1em]"></i> GitHub
+                            </a></div>
+                        <div class="basis-1/3 flex items-center justify-center"><a class="pb-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-blue-500 to-cyan-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer"><i class="fa-brands fa-linkedin w-[1em] h-[1em]"></i> LinkedIn
+                            </a></div>
+                        <div class="basis-1/3 flex items-center justify-center"><a class="pb-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="mailto:jure.vito@gmail.com" target="_blank" rel="noreferrer"><i class="fa-solid fa-inbox w-[1em] h-[1em]"></i> Email
+                            </a></div></div></div></div></div></div></div>
 
 
 			
 			<script>
 				{
-					__sveltekit_g4ki8g = {
+					__sveltekit_jxsk73 = {
 						env: {},
 						base: new URL(".", location).pathname.slice(0, -1),
 						element: document.currentScript.parentElement
@@ -82,10 +93,10 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.dbf9b9bf.js"),
-						import("./_app/immutable/entry/app.dad8ca2e.js")
+						import("./_app/immutable/entry/start.1d39a1f4.js"),
+						import("./_app/immutable/entry/app.29928618.js")
 					]).then(([kit, app]) => {
-						kit.start(app, __sveltekit_g4ki8g.element, {
+						kit.start(app, __sveltekit_jxsk73.element, {
 							node_ids: [0, 2],
 							data,
 							form: null,
