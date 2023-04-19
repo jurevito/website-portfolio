@@ -99,7 +99,7 @@
         <div class="my-8">
             <h2 id="experience" class="font-mont font-semibold text-4xl text-center m-2">Experience</h2>
             {#each exps as exp}
-            <div class="text-center mx-16 my-4 p-4">
+            <div class="text-center my-12">
                 <div class="text-gray-800 text-xl font-semibold">{exp.position}</div>
                 <div class="text-gray-800 text-lg italic">{exp.company} • {exp.type}</div>
                 <div class="text-gray-500 text-sm">{exp.from.toLocaleString('default', { month: 'short', year: 'numeric' })} - {exp.until.toLocaleString('default', { month: 'short', year: 'numeric' })}</div>
@@ -126,7 +126,7 @@
                     </div>
 
                     <!-- Contact Icons -->
-                    <div class="flex flex-row text-center my-8 max-w-4xl">
+                    <div class="flex flex-row text-center mt-8">
                         <div class="basis-1/3 flex items-center justify-center">
                             <a class="pb-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-slate-600 to-zinc-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
                                 <i class="fa-brands fa-github w-[1em] h-[1em]"></i> GitHub
