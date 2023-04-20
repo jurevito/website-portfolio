@@ -1,5 +1,4 @@
 <script lang="ts">
-    
     import { onMount } from 'svelte';
     import RobotCanvas from '../lib/RobotCanvas.svelte';
     import { Vector2 } from 'three';
@@ -20,9 +19,6 @@
         mouse.y = event.clientY;
     }
 
-    let expandButton: HTMLButtonElement;
-    let sectionButtons: HTMLDivElement;
-
     function scrollToSection(sectionID: string) {
 
         const section = document.getElementById(sectionID)!;
@@ -36,6 +32,9 @@
         })
     }
 
+    let expandButton: HTMLButtonElement;
+    let sectionButtons: HTMLDivElement;
+
     function toggleMenu() {
         sectionButtons.classList.toggle('h-0')
         sectionButtons.classList.toggle('h-36')
@@ -46,8 +45,8 @@
 <div on:mousemove={onMouseMove}>
 
     <!-- Navigation -->
-    <nav class="bg-gray-800 py-3 px-4">
-        <div class="flex flex-col sm:flex-row items-center justify-between font-mont font-bold">
+    <nav class="bg-gray-800 py-3 px-4 shadow-lg shadow-gray-400">
+        <div class="flex flex-col sm:flex-row items-center justify-between font-mont font-bold max-w-3xl mx-auto">
             <div class="flex items-center justify-between w-full">
                 <a href="/" class="text-gray-200">Jure Vito Srovin</a>
                 <button bind:this={expandButton} on:click={toggleMenu} id="expand-btn" class="px-2 text-gray-300 hover:text-white sm:hidden">
