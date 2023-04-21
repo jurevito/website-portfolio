@@ -48,13 +48,13 @@
     <nav class="bg-gray-800 py-3 px-4 shadow-lg shadow-gray-400">
         <div class="flex flex-col sm:flex-row items-center justify-between font-mont font-bold max-w-3xl mx-auto">
             <div class="flex items-center justify-between w-full">
-                <a href="/" class="text-gray-200">Jure Vito Srovin</a>
+                <p class="text-gray-200">Jure Vito Srovin</p>
                 <button bind:this={expandButton} on:click={toggleMenu} id="expand-btn" class="px-2 text-gray-300 hover:text-white sm:hidden">
                     <i class="flex fa-solid fa-bars"></i>
                 </button>
             </div>
 
-            <div bind:this={sectionButtons} id="section-btns" class="flex w-full h-0 transition-all duration-10 overflow-hidden sm:overflow-visible justify-evenly items-center flex-col sm:flex-row">
+            <div bind:this={sectionButtons} id="section-btns" class="flex w-full h-0 sm:h-auto transition-all duration-10 overflow-hidden sm:overflow-visible justify-evenly items-center flex-col sm:flex-row">
                 <button on:click={() => {scrollToSection('interests')}} class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Interests</button>
                 <button on:click={() => {scrollToSection('experience')}} class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-blue-500 to-violet-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Experience</button>
                 <button on:click={() => {scrollToSection('contact')}} class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-fuchsia-500 to-rose-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Contact</button>
