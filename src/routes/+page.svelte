@@ -73,7 +73,7 @@
                 </div>
                 <div class="basis-2/5">
                     <div class="flex flex-col">
-                        <h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-red-500 to-amber-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em] group-active:bg-[length:100%_0.1em]">Machine Learning</h2>
+                        <h2 class="font-mont text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-red-500 to-amber-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Machine Learning</h2>
                         <div>Why program business logic when you can let computer learn it himself. I used machine learning in many university assignments as well as in my bachelor's thesis with title: Machine Learning on Medical Data Using Interpretable Models.
                         </div>
                     </div>
@@ -86,7 +86,7 @@
                 </div>
                 <div class="basis-2/5">
                     <div class="flex flex-col">
-                        <h2 class="font-mont delay-75 text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Computer Graphics</h2>
+                        <h2 class="font-mont text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Computer Graphics</h2>
                         <div>Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor's degree, I made the decision to enroll in the program.
                         </div>
                     </div>
@@ -118,7 +118,7 @@
                 <div class="basis-1/2 my-5">
 
                     <!-- Description -->
-                    <div>I am {age} years old student at the Faculty of Computer and Information Science in Ljubljana. 
+                    <div>My name is <span>Jure Vito Srovin</span> and I am {age} years old student at the Faculty of Computer and Information Science in Ljubljana. 
                         Currently I am currently doing my master's thesis titled
                         <span class="italic">"Simulation of molecular docking using deep learning"</span>.
                         My hobbies include 3D modeling, lifting weights and traveling.
@@ -127,17 +127,17 @@
                     <!-- Contact Icons -->
                     <div class="flex flex-row text-center mt-8">
                         <div class="basis-1/3 flex items-center justify-center">
-                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-slate-600 to-zinc-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
+                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-300 ease-in-out bg-gradient-to-r from-slate-600 to-zinc-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
                                 <i class="fa-brands fa-github w-[1em] h-[1em]"></i> GitHub
                             </a>
                         </div>
                         <div class="basis-1/3 flex items-center justify-center">
-                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-blue-500 to-cyan-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
+                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-300 ease-in-out bg-gradient-to-r from-blue-500 to-cyan-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
                                 <i class="fa-brands fa-linkedin w-[1em] h-[1em]"></i> LinkedIn
                             </a>
                         </div>
                         <div class="basis-1/3 flex items-center justify-center">
-                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-500 ease-in-out bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-[length:0%_0.11em] transition-size hover:bg-[length:100%_0.11em]" href="mailto:jure.vito@gmail.com" target="_blank" rel="noreferrer">
+                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-300 ease-in-out bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="mailto:jure.vito@gmail.com" target="_blank" rel="noreferrer">
                                 <i class="fa-solid fa-inbox w-[1em] h-[1em]"></i> Email
                             </a>
                         </div>
