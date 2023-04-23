@@ -48,7 +48,7 @@
             
             gltf.scene.traverse((node) => {
                 if (node.isObject3D) {
-                    if (node.name == 'Giant001') {
+                    if (node.name == 'Giant') {
                         node.castShadow = true;
                     } else {
                         node.receiveShadow = true;
@@ -69,7 +69,7 @@
 
             idleAction = mixer.clipAction(gltf.animations[4]);
             attackAction = mixer.clipAction(gltf.animations[3]);
-            
+
             attackAction.setLoop(THREE.LoopOnce, 1);
             attackAction.clampWhenFinished = true;
 
