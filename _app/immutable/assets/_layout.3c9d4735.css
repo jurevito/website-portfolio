@@ -433,8 +433,8 @@ video {
   margin-top: 2rem;
   margin-bottom: 2rem;
 }
-.mt-8 {
-  margin-top: 2rem;
+.mt-6 {
+  margin-top: 1.5rem;
 }
 .flex {
   display: flex;
@@ -605,6 +605,10 @@ video {
   padding-top: 0.125rem;
   padding-bottom: 0.125rem;
 }
+.py-1 {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
@@ -700,8 +704,8 @@ video {
 .duration-150 {
   transition-duration: 150ms;
 }
-.duration-300 {
-  transition-duration: 300ms;
+.duration-200 {
+  transition-duration: 200ms;
 }
 .duration-500 {
   transition-duration: 500ms;
