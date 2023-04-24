@@ -68,7 +68,7 @@
             });
 
             idleAction = mixer.clipAction(gltf.animations[4]);
-            attackAction = mixer.clipAction(gltf.animations[3]);
+            attackAction = mixer.clipAction(gltf.animations[5]);
 
             attackAction.setLoop(THREE.LoopOnce, 1);
             attackAction.clampWhenFinished = true;
@@ -90,7 +90,6 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // scene.rotation.y += 0.01;
             const delta = clock.getDelta();
             mixer.update( delta );
 
