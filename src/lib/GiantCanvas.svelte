@@ -12,6 +12,9 @@
     let idleAction: THREE.AnimationAction;
     let attackAction: THREE.AnimationAction;
 
+    let timePassed = 0;
+    let seaMesh: THREE.Mesh;
+
     onMount(() => {
         canvas.addEventListener('click', onClick);
 
@@ -56,10 +59,13 @@
                 }
             });
 
+            // Setup sea animation shape keys.
+            seaMesh = gltf.scene.getObjectByName('Cube003') as THREE.Mesh;
+            seaMesh.morphTargetInfluences = [0];
+
             const model = gltf.scene;
             scene.add(model);
 
-            console.log(gltf.animations);
             mixer = new THREE.AnimationMixer(model);
 
             // Play boat animations.
@@ -92,6 +98,13 @@
 
             const delta = clock.getDelta();
             mixer.update( delta );
+
+            const weight = Math.abs(Math.sin(timePassed) * 0.5 + 0.5);
+            timePassed += delta*5;
+
+            if (seaMesh.morphTargetInfluences !== undefined) {
+                seaMesh.morphTargetInfluences[0] = weight;
+            }
 
             renderer.render(scene, camera);
         }
