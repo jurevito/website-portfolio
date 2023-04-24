@@ -119,25 +119,25 @@
 
                     <!-- Description -->
                     <div>My name is <span>Jure Vito Srovin</span> and I am {age} years old student at the Faculty of Computer and Information Science in Ljubljana. 
-                        Currently I am currently doing my master's thesis titled
+                        Currently I am working on my master's thesis titled
                         <span class="italic">"Simulation of molecular docking using deep learning"</span>.
                         My hobbies include 3D modeling, lifting weights and traveling.
                     </div>
 
                     <!-- Contact Icons -->
-                    <div class="flex flex-row text-center mt-8">
+                    <div class="flex flex-row text-center mt-6">
                         <div class="basis-1/3 flex items-center justify-center">
-                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-300 ease-in-out bg-gradient-to-r from-slate-600 to-zinc-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
+                            <a class="py-1 bg-bottom bg-no-repeat duration-200 ease-in-out bg-gradient-to-r from-slate-600 to-zinc-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="https://www.github.com/jurevito" target="_blank" rel="noreferrer">
                                 <i class="fa-brands fa-github w-[1em] h-[1em]"></i> GitHub
                             </a>
                         </div>
                         <div class="basis-1/3 flex items-center justify-center">
-                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-300 ease-in-out bg-gradient-to-r from-blue-500 to-cyan-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
+                            <a class="py-1 bg-bottom bg-no-repeat duration-200 ease-in-out bg-gradient-to-r from-blue-500 to-cyan-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="https://www.linkedin.com/in/jure-vito-srovin-587746245" target="_blank" rel="noreferrer">
                                 <i class="fa-brands fa-linkedin w-[1em] h-[1em]"></i> LinkedIn
                             </a>
                         </div>
                         <div class="basis-1/3 flex items-center justify-center">
-                            <a class="pb-1 bg-left-bottom bg-no-repeat duration-300 ease-in-out bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="mailto:jure.vito@gmail.com" target="_blank" rel="noreferrer">
+                            <a class="py-1 bg-bottom bg-no-repeat duration-200 ease-in-out bg-gradient-to-r from-fuchsia-500 to-pink-500 bg-[length:0%_0.15em] transition-size hover:bg-[length:100%_0.15em]" href="mailto:jure.vito@gmail.com" target="_blank" rel="noreferrer">
                                 <i class="fa-solid fa-inbox w-[1em] h-[1em]"></i> Email
                             </a>
                         </div>
