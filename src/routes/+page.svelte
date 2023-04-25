@@ -119,7 +119,7 @@
                 <div class="basis-1/2 my-5">
 
                     <!-- Description -->
-                    <div>My name is <span>Jure Vito Srovin</span> and I am {age} years old student at the Faculty of Computer and Information Science in Ljubljana. 
+                    <div>My name is <span>Jure Vito Srovin</span> and I am {age} years old student at the Faculty of Computer and Information Science, University of Ljubljana. 
                         Currently I am working on my master's thesis titled
                         <span class="italic">"Simulation of molecular docking using deep learning"</span>.
                         My hobbies include 3D modeling, lifting weights and traveling.
