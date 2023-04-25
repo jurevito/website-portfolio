@@ -4,6 +4,8 @@
     import * as THREE from 'three';
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
 
+    export let mouse = new THREE.Vector2();
+    export let parent: HTMLDivElement;
     let canvas: HTMLElement;
 
     let raycaster = new THREE.Raycaster();
@@ -15,8 +17,11 @@
     let timePassed = 0;
     let seaMesh: THREE.Mesh;
 
+    const maxHeight = 300;
+
     onMount(() => {
         canvas.addEventListener('click', onClick);
+        window.addEventListener('resize', handleResize);
 
         let mixer: THREE.AnimationMixer;
         const clock = new THREE.Clock();
@@ -24,7 +29,7 @@
         // Create renderer.
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setSize(canvas.clientWidth, maxHeight);
         renderer.shadowMap.enabled = true;
         renderer.outputEncoding = THREE.sRGBEncoding;
 
@@ -32,7 +37,7 @@
         const scene = new THREE.Scene();
 
         // Create a new camera.
-        const camera = new THREE.PerspectiveCamera(20, canvas.clientWidth / canvas.clientHeight, 1, 100);
+        const camera = new THREE.PerspectiveCamera(20, canvas.clientWidth / maxHeight, 1, 100);
         camera.position.set(-18, 12, -18);
         camera.lookAt(0, 1, 0);
 
@@ -85,13 +90,6 @@
         }, undefined, (e: ErrorEvent) => {
             console.error(e);
         });
-
-        window.onresize = () => {
-            camera.aspect = canvas.clientWidth / canvas.clientHeight;
-            camera.updateProjectionMatrix();
-
-            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
-        };
         
         function animate() {
             requestAnimationFrame(animate);
@@ -108,6 +106,17 @@
 
             renderer.render(scene, camera);
         }
+
+        function handleResize() {
+            const width = parent.clientWidth;
+            const height = Math.min(width, maxHeight);
+
+            camera.aspect = width / height;
+            camera.updateProjectionMatrix();
+
+            renderer.setSize(width, height);
+            
+        };
 
         function onClick(event: MouseEvent) {
             let bounds = renderer.domElement.getBoundingClientRect();

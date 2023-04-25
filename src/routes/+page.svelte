@@ -7,6 +7,7 @@
 
     let mouse = new Vector2();
     let robotContainer: HTMLDivElement;
+    let giantContainer: HTMLDivElement;
 
     // Find my current age.
     const today = new Date().getTime();
@@ -68,7 +69,7 @@
         <div class="my-8">
             <h2 id="interests" class="font-mont font-semibold text-4xl text-center m-2">Interests</h2>
             <div class="group flex flex-col my-10 sm:flex-row group">
-                <div bind:this={robotContainer} class="basis-3/5">
+                <div bind:this={robotContainer} class="basis-3/5 overflow-hidden">
                     <RobotCanvas mouse={mouse} parent={robotContainer}/>
                 </div>
                 <div class="basis-2/5">
@@ -81,8 +82,8 @@
             </div>
 
             <div class="group flex flex-col my-10 sm:flex-row-reverse">
-                <div class="basis-3/5">
-                    <GiantCanvas/>
+                <div bind:this={giantContainer} class="basis-3/5 overflow-hidden">
+                    <GiantCanvas mouse={mouse} parent={robotContainer}/>
                 </div>
                 <div class="basis-2/5">
                     <div class="flex flex-col">

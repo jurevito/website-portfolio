@@ -14,9 +14,11 @@
     let idleActions: THREE.AnimationAction[];
     let fallActions: THREE.AnimationAction[];
 
+    const maxHeight = 300;
+
     onMount(() => {
         canvas.addEventListener('click', onClick);
-        window.addEventListener('resize', handleResize)
+        window.addEventListener('resize', handleResize);
 
         let mixer: THREE.AnimationMixer;
         const clock = new THREE.Clock();
@@ -24,7 +26,7 @@
         // Create renderer.
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
-        renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+        renderer.setSize(canvas.clientWidth, maxHeight);
         renderer.shadowMap.enabled = true;
         renderer.outputEncoding = THREE.sRGBEncoding;
 
@@ -32,7 +34,7 @@
         const scene = new THREE.Scene();
 
         // Create a new camera.
-        const camera = new THREE.PerspectiveCamera(30, canvas.clientWidth / canvas.clientHeight, 1, 100);
+        const camera = new THREE.PerspectiveCamera(30, canvas.clientWidth / maxHeight, 1, 100);
         camera.position.set(-4, 1.5, 6);
         camera.lookAt(0, 0.25, 0);
 
@@ -100,10 +102,13 @@
         }
 
         function handleResize() {
-            camera.aspect = canvas.clientWidth / canvas.clientHeight;
+            const width = parent.clientWidth;
+            const height = Math.min(width, maxHeight);
+
+            camera.aspect = width / height;
             camera.updateProjectionMatrix();
 
-            renderer.setSize(canvas.clientWidth, canvas.clientHeight);
+            renderer.setSize(width, height);
             
         };
 
