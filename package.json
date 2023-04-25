@@ -42,6 +42,7 @@
 	"type": "module",
 	"dependencies": {
 		"@types/three": "^0.149.0",
+		"gsap": "^3.11.5",
 		"three": "^0.149.0"
 	}
 }

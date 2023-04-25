@@ -3,6 +3,7 @@
     import { onMount } from 'svelte';
     import * as THREE from 'three';
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+    import GSAP from "gsap";
 
     export let mouse = new THREE.Vector2();
     export let parent: HTMLDivElement;
@@ -18,10 +19,23 @@
     let seaMesh: THREE.Mesh;
 
     const maxHeight = 300;
+    let currentWidth = 1000;
+
+    let lerp = {
+        current: 0,
+        target: 0,
+        ease: 0.1,
+    };
+
+    $: {
+        const coeff = 0.05;
+        lerp.target = (2*mouse.x / currentWidth - 1) * coeff;
+    }
 
     onMount(() => {
         canvas.addEventListener('click', onClick);
         window.addEventListener('resize', handleResize);
+        currentWidth = window.innerWidth;
 
         let mixer: THREE.AnimationMixer;
         const clock = new THREE.Clock();
@@ -94,15 +108,26 @@
         function animate() {
             requestAnimationFrame(animate);
 
+            // Update animations.
             const delta = clock.getDelta();
             mixer.update( delta );
 
             const weight = Math.abs(Math.sin(timePassed) * 0.5 + 0.5);
             timePassed += delta*5;
 
+            // Animate sea mesh with shape keys.
             if (seaMesh.morphTargetInfluences !== undefined) {
                 seaMesh.morphTargetInfluences[0] = weight;
             }
+
+            lerp.current = GSAP.utils.interpolate(
+                lerp.current,
+                lerp.target,
+                lerp.ease
+            );
+
+            // Rotate scene on mouse move.
+            scene.rotation.y = lerp.current;
 
             renderer.render(scene, camera);
         }
@@ -115,7 +140,7 @@
             camera.updateProjectionMatrix();
 
             renderer.setSize(width, height);
-            
+            currentWidth = window.innerWidth;
         };
 
         function onClick(event: MouseEvent) {
