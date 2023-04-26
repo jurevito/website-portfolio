@@ -25,7 +25,7 @@
     };
 
     $: {
-        const coeff = 0.05;
+        const coeff = 0.1;
         lerp.target = (2*mouse.x / currentWidth - 1) * coeff;
     }
 
@@ -48,18 +48,18 @@
         const scene = new THREE.Scene();
 
         // Create a new camera.
-        const camera = new THREE.PerspectiveCamera(30, canvas.clientWidth / maxHeight, 1, 100);
-        camera.position.set(-4, 1.5, 6);
-        camera.lookAt(0, 0.25, 0);
+        const camera = new THREE.PerspectiveCamera(25, canvas.clientWidth / maxHeight, 1, 100);
+        camera.position.set(-5, 1.5, 8);
+        camera.lookAt(0, 0.1, 0);
 
         // Create a directional light.
         const directLight = new THREE.DirectionalLight(0xffffff);
-        directLight.position.set(3, 10, 10);
+        directLight.position.set(1, 8, 8);
         directLight.castShadow = true;
         scene.add(directLight);
 
         // Create an ambient light.
-        const ambientLight = new THREE.AmbientLight(0xffffff, 0.15);
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.2);
         scene.add(ambientLight);
 
         // Add shadow catcher.
@@ -120,7 +120,7 @@
             );
 
             // Rotate scene on mouse move.
-            scene.rotation.y = lerp.current;
+            scene.rotation.y = -lerp.current;
 
             renderer.render(scene, camera);
         }

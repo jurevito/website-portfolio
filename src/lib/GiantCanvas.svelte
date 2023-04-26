@@ -28,7 +28,7 @@
     };
 
     $: {
-        const coeff = 0.05;
+        const coeff = 0.1;
         lerp.target = (2*mouse.x / currentWidth - 1) * coeff;
     }
 
@@ -51,8 +51,8 @@
         const scene = new THREE.Scene();
 
         // Create a new camera.
-        const camera = new THREE.PerspectiveCamera(20, canvas.clientWidth / maxHeight, 1, 100);
-        camera.position.set(-18, 12, -18);
+        const camera = new THREE.PerspectiveCamera(15, canvas.clientWidth / maxHeight, 1, 100);
+        camera.position.set(-29, 23, -29);
         camera.lookAt(0, 1, 0);
 
         // Create a directional light.
