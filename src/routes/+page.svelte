@@ -1,9 +1,10 @@
 <script lang="ts">
     import { onMount } from 'svelte';
-    import RobotCanvas from '../lib/RobotCanvas.svelte';
     import { Vector2 } from 'three';
     import { exps } from '../lib/Experience';
+    import RobotCanvas from '../lib/RobotCanvas.svelte';
 	import GiantCanvas from '$lib/GiantCanvas.svelte';
+	import BacteriaCanvas from '$lib/BacteriaCanvas.svelte';
 
     let mouse = new Vector2();
     let robotContainer: HTMLDivElement;
@@ -89,6 +90,19 @@
                     <div class="flex flex-col">
                         <h2 class="font-mont text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Computer Graphics</h2>
                         <div>Before pursuing computer science, I wanted to work as a 3D artist. Since computer science program offered a 3D modeling course in the third year of the bachelor's degree, I made the decision to enroll in the program.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="group flex flex-col my-10 sm:flex-row group">
+                <div bind:this={robotContainer} class="basis-3/5 overflow-hidden">
+                    <BacteriaCanvas parent={robotContainer}/>
+                </div>
+                <div class="basis-2/5">
+                    <div class="flex flex-col">
+                        <h2 class="font-mont text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-lime-500 to-emerald-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Molecular Biology</h2>
+                        <div>It has the enormous potential to revolutionize healthcare and enhance millions of lives. Use of high performance computing and machine learning can lower the time and money spent on development of novel drugs. 
                         </div>
                     </div>
                 </div>
