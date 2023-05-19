@@ -14,15 +14,15 @@
 		<script src="https://kit.fontawesome.com/dd003952a2.js" crossorigin="anonymous"></script>
 
 		<meta http-equiv="content-security-policy" content="">
-		<link href="./_app/immutable/assets/_layout.c03cfb4d.css" rel="stylesheet">
-		<link rel="modulepreload" href="./_app/immutable/entry/start.741ff17e.js">
+		<link href="./_app/immutable/assets/_layout.0b4e9a0f.css" rel="stylesheet">
+		<link rel="modulepreload" href="./_app/immutable/entry/start.ec3adac2.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/index.3a2bf0e2.js">
-		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.820e7cfd.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/app.df8a845a.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/_layout.svelte.791d3605.js">
+		<link rel="modulepreload" href="./_app/immutable/chunks/singletons.10193d3f.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/app.bcad64ee.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/_layout.svelte.0a9da4cf.js">
 		<link rel="modulepreload" href="./_app/immutable/entry/_layout.js.984db11e.js">
 		<link rel="modulepreload" href="./_app/immutable/chunks/_layout.da46b06b.js">
-		<link rel="modulepreload" href="./_app/immutable/entry/_page.svelte.a31d1b09.js">
+		<link rel="modulepreload" href="./_app/immutable/entry/_page.svelte.7c8873b1.js">
 	</head>
 	<body data-sveltekit-preload-data="hover">
 		<div class="font-opensans" style="display: contents">
@@ -33,7 +33,8 @@
                 <button id="expand-btn" class="px-2 text-gray-300 hover:text-white sm:hidden"><i class="flex fa-solid fa-bars"></i></button></div>
 
             <div id="section-btns" class="flex w-full h-0 sm:h-auto transition-all duration-10 overflow-hidden sm:overflow-visible justify-evenly items-center flex-col sm:flex-row"><button class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Interests</button>
-                <button class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-blue-500 to-violet-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Experience</button>
+                <button class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-blue-500 to-violet-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Projects</button>
+                <button class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-violet-500 to-fuchsia-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Experience</button>
                 <button class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-fuchsia-500 to-rose-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Contact</button></div></div></nav>
 
     <div class="max-w-3xl w-4/5 mx-auto my-12">
@@ -54,17 +55,33 @@
                         </div></div></div></div></div>
 
         
+        <div class="my-8"><h2 id="projects" class="font-mont font-semibold text-4xl text-center m-2">Projects</h2>
+            <div class="max-w-lg mx-auto my-12"><h2 class="font-mont text-xl text-center my-2">YouTube to MP3 Converter
+                    <a class="mx-2" href="https://github.com/jurevito/yt2mp3" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i>
+                    </a></h2>
+                <img class="border-2 p-1 border-neutral-600 rounded-lg" alt="profile" src="pics/yt2mp3.png">
+                <p class="my-2">I created YouTube to MP3 terminal UI application in Go programming language. It also allows you to edit music metadata such as artist and song title.</p>
+                <div class="flex flex-wrap"><span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">Golang</span></div>
+            </div><div class="max-w-lg mx-auto my-12"><h2 class="font-mont text-xl text-center my-2">Personal Portfolio Website
+                    <a class="mx-2" href="https://github.com/jurevito/website-portfolio" target="_blank" rel="noreferrer"><i class="fa-brands fa-github"></i>
+                    </a></h2>
+                <img class="border-2 p-1 border-neutral-600 rounded-lg" alt="profile" src="pics/portfolio.png">
+                <p class="my-2">I made personal portfolio website with 3D graphics using three.js library. I modelled, rigged and animated all 3D models from scratch using open source software Blender.</p>
+                <div class="flex flex-wrap"><span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">SvelteKit</span><span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">Tailwind</span><span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">TypeScript</span><span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">three.js</span><span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">Blender</span><span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">html</span><span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">css</span></div>
+            </div></div>
+
+        
         <div class="my-8"><h2 id="experience" class="font-mont font-semibold text-4xl text-center m-2">Experience</h2>
-            <div class="text-center my-12"><div class="text-gray-800 text-xl font-semibold">Software Engineer</div>
-                <div class="text-gray-800 text-lg italic">Globus Marine International • Intership</div>
-                <div class="text-gray-500 text-sm">Apr 2021 - Jun 2021</div>
-                <div class="text-gray-500 text-sm">Ljubljana, Slovenia</div>
-                <div class="text-gray-800 text-sm font-semibold">C# • .NET • SQL Server</div>
-            </div><div class="text-center my-12"><div class="text-gray-800 text-xl font-semibold">Data Scientist</div>
+            <div class="text-center my-12"><div class="text-gray-800 text-xl font-semibold">Data Scientist</div>
                 <div class="text-gray-800 text-lg italic">DikinBaws • Full Time</div>
                 <div class="text-gray-500 text-sm">Feb 2022 - Present</div>
                 <div class="text-gray-500 text-sm">Krakow, Poland</div>
                 <div class="text-gray-800 text-sm font-semibold">Python • PyTorch • ScikitLearn</div>
+            </div><div class="text-center my-12"><div class="text-gray-800 text-xl font-semibold">Software Engineer</div>
+                <div class="text-gray-800 text-lg italic">Globus Marine International • Intership</div>
+                <div class="text-gray-500 text-sm">Apr 2021 - Jun 2021</div>
+                <div class="text-gray-500 text-sm">Ljubljana, Slovenia</div>
+                <div class="text-gray-800 text-sm font-semibold">C# • .NET • SQL Server</div>
             </div></div>
 
         
@@ -91,7 +108,7 @@
 			
 			<script>
 				{
-					__sveltekit_1xmmc0q = {
+					__sveltekit_1c2cyz8 = {
 						env: {},
 						base: new URL(".", location).pathname.slice(0, -1),
 						element: document.currentScript.parentElement
@@ -100,10 +117,10 @@
 					const data = [null,null];
 
 					Promise.all([
-						import("./_app/immutable/entry/start.741ff17e.js"),
-						import("./_app/immutable/entry/app.df8a845a.js")
+						import("./_app/immutable/entry/start.ec3adac2.js"),
+						import("./_app/immutable/entry/app.bcad64ee.js")
 					]).then(([kit, app]) => {
-						kit.start(app, __sveltekit_1xmmc0q.element, {
+						kit.start(app, __sveltekit_1c2cyz8.element, {
 							node_ids: [0, 2],
 							data,
 							form: null,
