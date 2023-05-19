@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { Vector2 } from 'three';
     import { exps } from '../lib/Experience';
+    import { projects } from '../lib/Project';
     import RobotCanvas from '../lib/RobotCanvas.svelte';
 	import GiantCanvas from '$lib/GiantCanvas.svelte';
 	import BacteriaCanvas from '$lib/BacteriaCanvas.svelte';
@@ -55,7 +56,7 @@
 
     function toggleMenu() {
         sectionButtons.classList.toggle('h-0')
-        sectionButtons.classList.toggle('h-36')
+        sectionButtons.classList.toggle('h-52')
     }
 
 </script>
@@ -74,7 +75,8 @@
 
             <div bind:this={sectionButtons} id="section-btns" class="flex w-full h-0 sm:h-auto transition-all duration-10 overflow-hidden sm:overflow-visible justify-evenly items-center flex-col sm:flex-row">
                 <button on:click={() => {scrollToSection('interests')}} class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-emerald-500 to-cyan-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Interests</button>
-                <button on:click={() => {scrollToSection('experience')}} class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-blue-500 to-violet-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Experience</button>
+                <button on:click={() => {scrollToSection('projects')}} class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-blue-500 to-violet-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Projects</button>
+                <button on:click={() => {scrollToSection('experience')}} class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-violet-500 to-fuchsia-500  bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Experience</button>
                 <button on:click={() => {scrollToSection('contact')}} class="text-gray-400 mx-4 py-0.5 bg-gradient-to-r from-fuchsia-500 to-rose-500 bg-[length:0%_0.15em] hover:bg-[length:100%_0.15em] bg-bottom bg-no-repeat transition-all duration-150 ease-in-out hover:text-white">Contact</button>
             </div>
         </div>
@@ -123,6 +125,27 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        <!-- Projects -->
+        <div class="my-8">
+            <h2 id="projects" class="font-mont font-semibold text-4xl text-center m-2">Projects</h2>
+            {#each projects as project}
+            <div class="max-w-lg mx-auto my-12">
+                <h2 class="font-mont text-xl text-center my-2">{project.title}
+                    <a class="mx-2" href="{project.github}" target="_blank" rel="noreferrer">
+                        <i class="fa-brands fa-github"></i>
+                    </a>
+                </h2>
+                <img class="border-2 p-1 border-neutral-600 rounded-lg" alt="profile" src="{project.photo}">
+                <p class="my-2">{project.description}</p>
+                <div class="flex flex-wrap">
+                {#each project.skills as skill}
+                    <span class="border-2 bg-slate-100 border-neutral-400 text-sm rounded-2xl py-0.5 px-2 m-1">{skill}</span>
+                {/each}
+                </div>
+            </div>
+            {/each}
         </div>
 
         <!-- Experience -->
