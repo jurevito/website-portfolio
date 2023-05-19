@@ -7,9 +7,12 @@
 	import BacteriaCanvas from '$lib/BacteriaCanvas.svelte';
 
     let mouse = new Vector2();
+    let animCoeff: number = 0;
+
     let robotContainer: HTMLDivElement;
     let giantContainer: HTMLDivElement;
-
+    let bacteriaContainer: HTMLDivElement;
+    
     // Find my current age.
     const today = new Date().getTime();
     const birthdate = new Date('1998-06-25').getTime();
@@ -19,6 +22,19 @@
     function onMouseMove(event: MouseEvent) {
         mouse.x = event.clientX;
         mouse.y = event.clientY;
+    }
+
+    function onScroll() {
+        let top = bacteriaContainer.getBoundingClientRect().top;
+        let bottom = bacteriaContainer.getBoundingClientRect().bottom;
+
+        const clamp = (num: number, min: number, max: number) => {
+            return Math.min(Math.max(num, min), max)
+        };
+
+        // Calculate animation coefficient ranging from 0.1 to 0.9.
+        const factor = (window.innerHeight - bottom) / (top - bottom + window.innerHeight);
+        animCoeff = clamp(factor, 0.1, 0.9);
     }
 
     function scrollToSection(sectionID: string) {
@@ -96,13 +112,13 @@
             </div>
 
             <div class="group flex flex-col my-10 sm:flex-row group">
-                <div bind:this={robotContainer} class="basis-3/5 overflow-hidden">
-                    <BacteriaCanvas parent={robotContainer}/>
+                <div bind:this={bacteriaContainer} class="basis-3/5 overflow-hidden">
+                    <BacteriaCanvas animCoeff={animCoeff} parent={bacteriaContainer}/>
                 </div>
                 <div class="basis-2/5">
                     <div class="flex flex-col">
                         <h2 class="font-mont text-2xl my-2 mx-auto text-center pb-1 bg-gradient-to-r from-lime-500 to-emerald-500 bg-[length:0%_0.1em] bg-left-bottom bg-no-repeat duration-500 transition-size ease-in-out no-underline group-hover:bg-[length:100%_0.1em]">Molecular Biology</h2>
-                        <div>It has the enormous potential to revolutionize healthcare and enhance millions of lives. Use of high performance computing and machine learning can lower the time and money spent on development of novel drugs. 
+                        <div>It has the enormous potential to revolutionize healthcare and enhance millions of lives. Use of high performance computing and machine learning can cut the time and money spent during the development of novel drugs.
                         </div>
                     </div>
                 </div>
@@ -162,3 +178,5 @@
         </div>
     </div>
 </div>
+
+<svelte:window on:scroll={onScroll}/>

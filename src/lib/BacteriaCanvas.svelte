@@ -3,21 +3,32 @@
     import { onMount } from 'svelte';
     import * as THREE from 'three';
     import { GLTFLoader } from "three/examples/jsm/loaders/GLTFLoader";
+    import GSAP from "gsap";
 
+    export let animCoeff: number;
     export let parent: HTMLDivElement;
-    let canvas: HTMLElement;
 
-    let actions: THREE.AnimationAction[];
+    let canvas: HTMLElement;
+    let animationDuration = 1;
 
     const maxHeight = 300;
     let currentWidth = 1000;
+
+    let lerp = {
+        current: animCoeff,
+        target: animCoeff,
+        ease: 0.01,
+    };
+
+    $: {
+        lerp.target = animCoeff;
+    }
 
     onMount(() => {
         window.addEventListener('resize', handleResize);
         currentWidth = window.innerWidth;
 
         let mixer: THREE.AnimationMixer;
-        const clock = new THREE.Clock();
 
         // Create renderer.
         const renderer = new THREE.WebGLRenderer({ canvas: canvas, antialias: true, alpha: true });
@@ -48,20 +59,15 @@
         loader.load('./models/bacteria.glb', (gltf) => {
 
             const model = gltf.scene;
-            console.log(gltf.scene)
             scene.add(model);
 
-            const mesh = gltf.scene.getObjectByName('BacteriaBodyLowPoly') as THREE.Mesh;
-            console.log(mesh);
-
             mixer = new THREE.AnimationMixer(model);
-            
-            // Virus animations: 5, 4, 3, 2
-            // Tail: 1
-            // Mouth: 0
+
             gltf.animations.forEach((animation) => {
                 mixer.clipAction(animation).play();
             });
+
+            animationDuration = gltf.animations[0].duration;
 
             animate();
         }, undefined, (e: ErrorEvent) => {
@@ -71,9 +77,14 @@
         function animate() {
             requestAnimationFrame(animate);
 
-            // Update animations.
-            const delta = clock.getDelta();
-            mixer.update( delta );
+            lerp.current = GSAP.utils.interpolate(
+                lerp.current,
+                lerp.target,
+                lerp.ease
+            );
+
+            // Update animations based on coefficient.
+            mixer.setTime(animCoeff * animationDuration);
 
             renderer.render(scene, camera);
         }
