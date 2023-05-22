@@ -9,16 +9,23 @@
 
     let mouse = new Vector2();
     let animCoeff: number = 0;
-
+    
     let robotContainer: HTMLDivElement;
     let giantContainer: HTMLDivElement;
     let bacteriaContainer: HTMLDivElement;
     
+    let navHeight: number = 50;
+    let navbar: HTMLElement;
+
     // Find my current age.
     const today = new Date().getTime();
     const birthdate = new Date('1998-06-25').getTime();
     const diffInMs = Math.abs(today - birthdate)
     const age = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 365.25));
+
+    onMount(() => {
+        navHeight = navbar.clientHeight;
+    });
 
     function onMouseMove(event: MouseEvent) {
         mouse.x = event.clientX;
@@ -34,16 +41,15 @@
         };
 
         // Calculate animation coefficient ranging from 0.1 to 0.9.
-        const factor = (window.innerHeight - bottom) / (top - bottom + window.innerHeight);
+        const factor = (window.innerHeight - bottom) / (top - bottom - navHeight + window.innerHeight);
         animCoeff = clamp(factor, 0.1, 0.9);
     }
 
     function scrollToSection(sectionID: string) {
-
         const section = document.getElementById(sectionID)!;
-        const sectionTop = section.offsetTop;
+        const sectionTop = section.offsetTop - navHeight*1.25;
 
-        console.log("Button clicked: " + sectionTop);
+        closeMenu();
 
         window.scrollTo({
             top: sectionTop,
@@ -53,10 +59,26 @@
 
     let expandButton: HTMLButtonElement;
     let sectionButtons: HTMLDivElement;
+    let expanded: boolean = false;
 
     function toggleMenu() {
-        sectionButtons.classList.toggle('h-0')
-        sectionButtons.classList.toggle('h-52')
+        if (!expanded) {
+            openMenu();
+        } else {
+            closeMenu();
+        }
+    }
+
+    function openMenu() {
+        sectionButtons.classList.add('h-52');
+        sectionButtons.classList.remove('h-0');
+        expanded = true;
+    }
+
+    function closeMenu() {
+        sectionButtons.classList.add('h-0')
+        sectionButtons.classList.remove('h-52')
+        expanded = false;
     }
 
 </script>
@@ -64,7 +86,7 @@
 <div on:mousemove={onMouseMove}>
 
     <!-- Navigation -->
-    <nav class="bg-gray-800 py-3 px-4 shadow-lg shadow-gray-400">
+    <nav bind:this={navbar} class="bg-gray-800 py-3 px-4 shadow-lg shadow-gray-400 fixed z-50 top-0 w-full">
         <div class="flex flex-col sm:flex-row items-center justify-between font-mont font-bold max-w-3xl mx-auto">
             <div class="flex items-center justify-between w-full">
                 <p class="text-gray-200">Jure Vito Srovin</p>
@@ -82,7 +104,7 @@
         </div>
     </nav>
 
-    <div class="max-w-3xl w-4/5 mx-auto my-12">
+    <div class="max-w-3xl w-4/5 mx-auto mb-12 mt-20">
 
         <!-- Interests -->
         <div class="my-8">
