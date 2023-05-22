@@ -22,16 +22,6 @@ const exps: Experience[] = [
         city: 'Ljubljana',
         country: 'Slovenia',
         skills: ['C#', '.NET', 'SQL Server'],
-    },
-    {
-        position: 'Data Scientist',
-        company: 'DikinBaws',
-        type: 'Full Time',
-        from: new Date('2022-02-01'),
-        until: 'Present',
-        city: 'Krakow',
-        country: 'Poland',
-        skills: ['Python', 'PyTorch', 'ScikitLearn'],
     }
 ];
 
