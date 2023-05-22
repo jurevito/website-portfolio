@@ -402,6 +402,15 @@ video {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.fixed {
+  position: fixed;
+}
+.top-0 {
+  top: 0px;
+}
+.z-50 {
+  z-index: 50;
+}
 .m-1 {
   margin: 0.25rem;
 }
@@ -439,6 +448,12 @@ video {
 .my-8 {
   margin-top: 2rem;
   margin-bottom: 2rem;
+}
+.mb-12 {
+  margin-bottom: 3rem;
+}
+.mt-20 {
+  margin-top: 5rem;
 }
 .mt-6 {
   margin-top: 1.5rem;
