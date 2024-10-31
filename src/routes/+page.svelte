@@ -149,7 +149,28 @@
             </div>
         </div>
 
-        <!-- Projects -->
+        <div class="my-8 space-y-4">
+            <h2 class="text-center text-2xl font-mont">Selected Projects</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {#each projects as project}
+                <div class="shadow-sm border rounded-xl space-y-2">
+                    <img src="{project.photo}" alt="{project.alt}" class="rounded-t-xl">
+                    <div class="p-4 space-y-1">
+                        <h3 class="text-center text-lg font-mont">{project.title}</h3>
+                        <p>{project.description}</p>
+                        <div class="flex flex-wrap">
+                            {#each project.skills as skill}
+                            <span class="border bg-gray-100 border-gray-300 text-xs rounded-2xl py-0.5 px-2 m-1">{skill}</span>
+                            {/each}
+                        </div>
+                    </div>
+                </div>
+                {/each}
+            </div>
+        </div>
+
+        <!-- OLD Projects -->
+        <!--
         <div class="my-8">
             <h2 id="projects" class="font-mont font-semibold text-4xl text-center m-2">Projects</h2>
             {#each projects as project}
@@ -169,6 +190,7 @@
             </div>
             {/each}
         </div>
+        -->
 
         <!-- Experience -->
         <div class="my-8">
