@@ -83,14 +83,14 @@
 
 </script>
 
-<div on:mousemove={onMouseMove}>
+<div role="presentation" on:mousemove={onMouseMove}>
 
     <!-- Navigation -->
     <nav bind:this={navbar} class="bg-gray-800 py-3 px-4 shadow-lg shadow-gray-400 fixed z-50 top-0 w-full">
         <div class="flex flex-col sm:flex-row items-center justify-between font-mont font-bold max-w-3xl mx-auto">
             <div class="flex items-center justify-between w-full">
                 <p class="text-gray-200">Jure Vito Srovin</p>
-                <button bind:this={expandButton} on:click={toggleMenu} id="expand-btn" class="px-2 text-gray-300 hover:text-white sm:hidden">
+                <button aria-label="expand menu" bind:this={expandButton} on:click={toggleMenu} id="expand-btn" class="px-2 text-gray-300 hover:text-white sm:hidden">
                     <i class="flex fa-solid fa-bars"></i>
                 </button>
             </div>
