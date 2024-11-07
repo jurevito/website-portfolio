@@ -2,7 +2,7 @@
   import * as Table from '$lib/components/ui/table/index.js';
   import { Slider } from '$lib/components/ui/slider/index.js';
   import { Button } from '$lib/components/ui/button/index.js';
-  import { Badge } from "$lib/components/ui/badge/index.js";
+  import { Badge } from '$lib/components/ui/badge/index.js';
   import Shuffle from 'lucide-svelte/icons/shuffle';
   import type { Boxer } from '$lib/boxer';
 
@@ -71,6 +71,7 @@
   };
 
   const CalcScore = (pair: [Boxer, Boxer]): number => {
+    // Better to do relative weight difference.
     const weightDiff = Math.abs(pair[0].weight - pair[1].weight);
     const numMatchesDiff = Math.abs(pair[0].numMatches - pair[1].numMatches);
 
@@ -84,12 +85,12 @@
     let bestPairs: Boxer[] = [];
 
     let pairs = GetPairs(boxers);
-    pairs = pairs.sort(pair => CalcScore(pair));
-    matchups = pairs.slice(0, 10);
+    pairs = pairs.sort((a, b) => CalcScore(a) - CalcScore(b));
+    matchups = pairs.slice(0, 20);
 
     setTimeout(() => {
       optimizing = false;
-    }, 500);
+    }, 100);
   };
 </script>
 
@@ -153,7 +154,13 @@
         </Button>
       </div>
 
-      <div class="space-y-4">
+      <div class="space-y-4 my-4">
+        {#if matchups.length > 0}
+          <div>
+            <p class="text-center">{matchups.length} / {Math.floor(boxers.length / 2)} paired</p>
+          </div>
+        {/if}
+
         {#each matchups as [boxer1, boxer2]}
           <div class="flex justify-between items-center p2-3 px-3">
             <div>
