@@ -38,8 +38,8 @@
   }));
 
   const normalize = (arr: number[]): number[] => {
-    min = Math.min(...arr);
-    max = Math.max(...arr);
+    const min = Math.min(...arr);
+    const max = Math.max(...arr);
 
     return arr.map((val) => (val - min) / (max - min));
   };
@@ -70,7 +70,7 @@
     return pairs;
   };
 
-  const CalcScore = (pair: [Boxer, Boxer]): number => {
+  const Score = (pair: [Boxer, Boxer]): number => {
     // Better to do relative weight difference.
     const weightDiff = Math.abs(pair[0].weight - pair[1].weight);
     const numMatchesDiff = Math.abs(pair[0].numMatches - pair[1].numMatches);
@@ -79,18 +79,91 @@
     return score;
   };
 
+  const TotalScore = (pairs: [Boxer, Boxer][]): number => {
+    const pairedScore = pairs.reduce((acc, pair) => acc + Score(pair), 0);
+    const unpairedScore = (1 - pairs.length / Math.floor(boxers.length / 2)) * boxers.length * 5 * numPairsWeight[0];
+    return pairedScore + unpairedScore;
+  };
+
+  const InitialMatchups = (pairs: [Boxer, Boxer][]): [[Boxer, Boxer][], Set<Boxer>] => {
+    let matchups: [Boxer, Boxer][] = [];
+    let unmatched = new Set<Boxer>(boxers);
+
+    for (let i = 0; i < pairs.length; i++) {
+      if (unmatched.has(pairs[i][0]) && unmatched.has(pairs[i][1])) {
+        matchups.push(pairs[i]);
+        unmatched.delete(pairs[i][0]);
+        unmatched.delete(pairs[i][1]);
+      }
+    }
+
+    return [matchups, unmatched];
+  };
+
+  const SimulatedAnnealing = (
+    boxers: Boxer[],
+    iterations: number,
+    temperature: number,
+    coolingRate: number
+  ): [Boxer, Boxer][] => {
+    let allPairs = GetPairs(boxers);
+    let [bestPairs, bestUnmatched] = InitialMatchups(allPairs);
+    let bestScore = TotalScore(bestPairs);
+
+    console.log('Initial score:', bestScore);
+    console.log('Initial pairs:', bestPairs);
+    console.log('Initial unmatched:', bestUnmatched);
+
+    for (let i = 0; i < iterations; i++) {
+      const pairs = [...bestPairs];
+      const unmatched = new Set([...bestUnmatched]);
+
+      if (pairs.length == 0 || Math.random() < 0.5 && unmatched.size >= 2) {
+        const unmatchedArray = Array.from(unmatched);
+        const index1 = Math.floor(Math.random() * unmatchedArray.length);
+        let index2;
+        do {
+          index2 = Math.floor(Math.random() * unmatchedArray.length);
+        } while (index2 === index1);
+
+        // FIXME: add pairing constraints
+        const first = unmatchedArray[index1];
+        const second = unmatchedArray[index2];
+
+        pairs.push([first, second]);
+        unmatched.delete(first);
+        unmatched.delete(second);
+        //console.log(`Adding pair (${i}): ${[first, second]}`);
+      } else {
+        const index = Math.floor(Math.random() * pairs.length);
+        const pair = pairs[index];
+        pairs.splice(index, 1);
+
+        //console.log(`Removing pair (${i}): ${index}`);
+        unmatched.add(pair[0]);
+        unmatched.add(pair[1]);
+      }
+
+      const score = TotalScore(pairs);
+      if (score < bestScore || Math.random() < temperature) {
+        console.log(`New best score (${i}): ${score}, temperature: ${temperature}, new best pairs: ${pairs.length}`);
+        bestPairs = pairs;
+        bestUnmatched = unmatched;
+        bestScore = score;
+      }
+
+      temperature *= coolingRate;
+    }
+
+    console.log('Final score:', bestScore);
+    console.log('Final pairs:', bestPairs.length);
+    return bestPairs.sort((a, b) => Score(a) - Score(b));
+  };
+
   const GetMatchups = () => {
     optimizing = true;
-    let totalScore = 0;
-    let bestPairs: Boxer[] = [];
-
-    let pairs = GetPairs(boxers);
-    pairs = pairs.sort((a, b) => CalcScore(a) - CalcScore(b));
-    matchups = pairs.slice(0, 20);
-
-    setTimeout(() => {
-      optimizing = false;
-    }, 100);
+    matchups = SimulatedAnnealing(boxers, 100000, 1, 0.9999);
+    optimizing = false;
   };
 </script>
 
@@ -169,7 +242,7 @@
               <Badge>{boxer1.weight}kg</Badge>
             </div>
             <div>
-              <p class="text-xs">vs {CalcScore([boxer1, boxer2])}</p>
+              <p class="text-xs">vs {Score([boxer1, boxer2])}</p>
             </div>
             <div>
               <p class="font-bold">{boxer2.name}</p>
