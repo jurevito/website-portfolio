@@ -39,12 +39,16 @@
     }))
   );
 
-  let maxWeightDiff = $derived(Math.max(...matchups.map(matchup => Math.abs(matchup[0].weight - matchup[1].weight))));
-  let maxNumMatchesDiff = $derived(Math.max(...matchups.map(matchup => Math.abs(matchup[0].numMatches - matchup[1].numMatches))));
+  let maxWeightDiff = $derived(
+    Math.max(...matchups.map((matchup) => Math.abs(matchup[0].weight - matchup[1].weight)))
+  );
+  let maxNumMatchesDiff = $derived(
+    Math.max(...matchups.map((matchup) => Math.abs(matchup[0].numMatches - matchup[1].numMatches)))
+  );
 
   const isUnderage = (year: number): boolean => {
     const currentYear = new Date().getFullYear();
-    return year > currentYear;
+    return currentYear - year < 18;
   };
 
   const AreConstraint = (boxer1: Boxer, boxer2: Boxer): boolean => {
@@ -82,7 +86,8 @@
 
   const Score = (pair: [Boxer, Boxer]): number => {
     // Better to do relative weight difference.
-    const weightDiff = Math.abs(pair[0].weight - pair[1].weight) * (80 / Math.min(pair[0].weight, pair[1].weight));
+    const weightDiff =
+      Math.abs(pair[0].weight - pair[1].weight) * (80 / Math.min(pair[0].weight, pair[1].weight));
     const numMatchesDiff = Math.abs(pair[0].numMatches - pair[1].numMatches);
 
     const score = weightDiff * weightWeight[0] + numMatchesDiff * numMatchesWeight[0];
@@ -131,11 +136,11 @@
 
       if (pairs.length == 0 || (Math.random() < 0.5 && unmatched.size >= 2)) {
         const unmatchedArray = Array.from(unmatched);
-        
+
         let index1 = 0;
         let index2 = 0;
 
-        for (let j = 0 ; j<10 ; j++) {
+        for (let j = 0; j < 10; j++) {
           index1 = Math.floor(Math.random() * unmatchedArray.length);
           do {
             index2 = Math.floor(Math.random() * unmatchedArray.length);
