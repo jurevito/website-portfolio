@@ -28,14 +28,16 @@
   }
 
   // Generate an array of 100 random boxers
-  const boxers: Boxer[] = Array.from({ length: 100 }, () => ({
-    year: getRandomInt(1980, 2010),
-    name: getRandomName(),
-    club: getRandomClub(),
-    weight: getRandomInt(50, 110),
-    numMatches: getRandomInt(0, 30),
-    hasMatch: true,
-  }));
+  let boxers: Boxer[] = $state(
+    Array.from({ length: 100 }, () => ({
+      year: getRandomInt(1980, 2010),
+      name: getRandomName(),
+      club: getRandomClub(),
+      weight: getRandomInt(50, 110),
+      numMatches: getRandomInt(0, 30),
+      hasMatch: true,
+    }))
+  );
 
   const normalize = (arr: number[]): number[] => {
     const min = Math.min(...arr);
@@ -49,17 +51,25 @@
     return year > currentYear;
   };
 
+  const AreConstraint = (boxer1: Boxer, boxer2: Boxer): boolean => {
+    if (boxer1.club === boxer2.club) {
+      return true;
+    }
+
+    const ageDiff = Math.abs(boxer1.year - boxer2.year);
+    if (ageDiff > 2 && (isUnderage(boxer1.year) || isUnderage(boxer2.year))) {
+      return true;
+    }
+
+    return false;
+  };
+
   const GetPairs = (boxers: Boxer[]): [Boxer, Boxer][] => {
     const pairs: [Boxer, Boxer][] = [];
 
     for (let i = 0; i < boxers.length; i++) {
       for (let j = i + 1; j < boxers.length; j++) {
-        if (boxers[i].club === boxers[j].club) {
-          continue;
-        }
-
-        const ageDiff = Math.abs(boxers[i].year - boxers[j].year);
-        if (ageDiff > 2 && (isUnderage(boxers[i].year) || isUnderage(boxers[j].year))) {
+        if (AreConstraint(boxers[i], boxers[j])) {
           continue;
         }
 
@@ -81,7 +91,8 @@
 
   const TotalScore = (pairs: [Boxer, Boxer][]): number => {
     const pairedScore = pairs.reduce((acc, pair) => acc + Score(pair), 0);
-    const unpairedScore = (1 - pairs.length / Math.floor(boxers.length / 2)) * boxers.length * 5 * numPairsWeight[0];
+    const unpairedScore =
+      (1 - pairs.length / Math.floor(boxers.length / 2)) * boxers.length * 5 * numPairsWeight[0];
     return pairedScore + unpairedScore;
   };
 
@@ -105,7 +116,7 @@
     iterations: number,
     temperature: number,
     coolingRate: number
-  ): [Boxer, Boxer][] => {
+  ): [[Boxer, Boxer][], Set<Boxer>] => {
     let allPairs = GetPairs(boxers);
     let [bestPairs, bestUnmatched] = InitialMatchups(allPairs);
     let bestScore = TotalScore(bestPairs);
@@ -118,7 +129,7 @@
       const pairs = [...bestPairs];
       const unmatched = new Set([...bestUnmatched]);
 
-      if (pairs.length == 0 || Math.random() < 0.5 && unmatched.size >= 2) {
+      if (pairs.length == 0 || (Math.random() < 0.5 && unmatched.size >= 2)) {
         const unmatchedArray = Array.from(unmatched);
         const index1 = Math.floor(Math.random() * unmatchedArray.length);
         let index2;
@@ -146,7 +157,9 @@
 
       const score = TotalScore(pairs);
       if (score < bestScore || Math.random() < temperature) {
-        console.log(`New best score (${i}): ${score}, temperature: ${temperature}, new best pairs: ${pairs.length}`);
+        console.log(
+          `New best score (${i}): ${score}, temperature: ${temperature}, new best pairs: ${pairs.length}`
+        );
         bestPairs = pairs;
         bestUnmatched = unmatched;
         bestScore = score;
@@ -157,13 +170,24 @@
 
     console.log('Final score:', bestScore);
     console.log('Final pairs:', bestPairs.length);
-    return bestPairs.sort((a, b) => Score(a) - Score(b));
+    return [bestPairs, bestUnmatched];
   };
 
   const GetMatchups = () => {
     optimizing = true;
-    matchups = SimulatedAnnealing(boxers, 100000, 1, 0.9999);
-    optimizing = false;
+    setTimeout(() => {
+      let [tmp1, tmp2] = SimulatedAnnealing(boxers, 100000, 1, 0.9999);
+
+      boxers = boxers
+        .map((boxer) => {
+          return { ...boxer, hasMatch: !tmp2.has(boxer) };
+        })
+        .sort((a, b) => a.weight - b.weight)
+        .sort((a, b) => Number(a.hasMatch) - Number(b.hasMatch));
+
+      matchups = tmp1.sort((a, b) => Score(a) - Score(b));
+      optimizing = false;
+    }, 0);
   };
 </script>
 
@@ -183,7 +207,7 @@
         </Table.Header>
         <Table.Body>
           {#each boxers as boxer}
-            <Table.Row>
+            <Table.Row class={boxer.hasMatch ? '' : 'bg-red-50 hover:bg-red-100'}>
               <Table.Cell>{boxer.name}</Table.Cell>
               <Table.Cell>{boxer.club}</Table.Cell>
               <Table.Cell>{boxer.year}</Table.Cell>
@@ -204,15 +228,15 @@
         </div>
 
         <div class="flex items-center space-x-8">
-          <span class="w-36">Num. Pairs</span>
-          <Slider bind:value={numPairsWeight} max={1} step={0.1} />
-          <span class="w-8">{numPairsWeight}</span>
-        </div>
-
-        <div class="flex items-center space-x-8">
           <span class="w-36">Num. Matches</span>
           <Slider bind:value={numMatchesWeight} max={1} step={0.1} />
           <span class="w-8">{numMatchesWeight}</span>
+        </div>
+
+        <div class="flex items-center space-x-8">
+          <span class="w-36">Num. Pairs</span>
+          <Slider bind:value={numPairsWeight} max={1} step={0.1} />
+          <span class="w-8">{numPairsWeight}</span>
         </div>
       </div>
 
@@ -238,7 +262,7 @@
           <div class="flex justify-between items-center p2-3 px-3">
             <div>
               <p class="font-bold">{boxer1.name}</p>
-              <p class="text-xs">born {boxer1.year} - {boxer1.club}</p>
+              <p class="text-xs">{boxer1.year} - {boxer1.club} - {boxer1.numMatches}</p>
               <Badge>{boxer1.weight}kg</Badge>
             </div>
             <div>
@@ -246,7 +270,7 @@
             </div>
             <div>
               <p class="font-bold">{boxer2.name}</p>
-              <p class="text-xs">born {boxer2.year} - {boxer2.club}</p>
+              <p class="text-xs">{boxer2.year} - {boxer2.club} - {boxer2.numMatches}</p>
               <Badge>{boxer2.weight}kg</Badge>
             </div>
           </div>
