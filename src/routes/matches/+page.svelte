@@ -4,11 +4,13 @@
   import { Button } from '$lib/components/ui/button/index.js';
   import { Badge } from '$lib/components/ui/badge/index.js';
   import Shuffle from 'lucide-svelte/icons/shuffle';
+  import Check from 'lucide-svelte/icons/check';
+  import Cross from 'lucide-svelte/icons/x';
   import type { Boxer } from '$lib/Boxer';
 
   let weightWeight: number[] = $state([0.8]);
   let numPairsWeight: number[] = $state([0.3]);
-  let numMatchesWeight: number[] = $state([0.3]);
+  let fightCountWeight: number[] = $state([0.3]);
 
   let optimizing: boolean = $state(false);
   let matchups: [Boxer, Boxer][] = $state([]);
@@ -34,7 +36,7 @@
       name: getRandomName(),
       club: getRandomClub(),
       weight: getRandomInt(50, 110),
-      numMatches: getRandomInt(0, 30),
+      fightCount: getRandomInt(0, 30),
       hasMatch: true,
     }))
   );
@@ -42,8 +44,8 @@
   let maxWeightDiff = $derived(
     Math.max(...matchups.map((matchup) => Math.abs(matchup[0].weight - matchup[1].weight)))
   );
-  let maxNumMatchesDiff = $derived(
-    Math.max(...matchups.map((matchup) => Math.abs(matchup[0].numMatches - matchup[1].numMatches)))
+  let maxfightCountDiff = $derived(
+    Math.max(...matchups.map((matchup) => Math.abs(matchup[0].fightCount - matchup[1].fightCount)))
   );
 
   const isUnderage = (year: number): boolean => {
@@ -88,9 +90,9 @@
     // Better to do relative weight difference.
     const weightDiff =
       Math.abs(pair[0].weight - pair[1].weight) * (80 / Math.min(pair[0].weight, pair[1].weight));
-    const numMatchesDiff = Math.abs(pair[0].numMatches - pair[1].numMatches);
+    const fightCountDiff = Math.abs(pair[0].fightCount - pair[1].fightCount);
 
-    const score = weightDiff * weightWeight[0] + numMatchesDiff * numMatchesWeight[0];
+    const score = weightDiff * weightWeight[0] + fightCountDiff * fightCountWeight[0];
     return score;
   };
 
@@ -206,10 +208,10 @@
   };
 </script>
 
-<div class="mx-auto max-w-7xl px-4 my-8">
+<div class="mx-auto max-w-7xl px-4 my-8 font-mont">
   <div class="flex flex-col md:flex-row md:space-x-10">
     <div class="w-full md:w-1/2">
-      <Table.Root class="font-mont">
+      <Table.Root>
         <Table.Caption>List of registered boxers.</Table.Caption>
         <Table.Header>
           <Table.Row>
@@ -222,12 +224,19 @@
         </Table.Header>
         <Table.Body>
           {#each boxers as boxer}
-            <Table.Row class={boxer.hasMatch ? '' : 'bg-red-50 hover:bg-red-100'}>
-              <Table.Cell>{boxer.name}</Table.Cell>
+            <Table.Row>
+              <Table.Cell class="flex">
+                {#if boxer.hasMatch}
+                  <Check class="mr-2 size-4 text-green-500" />
+                {:else}
+                  <Cross class="mr-2 size-4 text-red-500" />
+                {/if}
+                {boxer.name}
+              </Table.Cell>
               <Table.Cell>{boxer.club}</Table.Cell>
               <Table.Cell>{boxer.year}</Table.Cell>
               <Table.Cell>{boxer.weight}</Table.Cell>
-              <Table.Cell>{boxer.numMatches}</Table.Cell>
+              <Table.Cell>{boxer.fightCount}</Table.Cell>
             </Table.Row>
           {/each}
         </Table.Body>
@@ -238,20 +247,20 @@
       <div class="space-y-4 text-sm">
         <div class="flex items-center space-x-8">
           <span class="w-36">Weight</span>
-          <Slider bind:value={weightWeight} max={1} step={0.1} />
-          <span class="w-8">{weightWeight}</span>
+          <Slider bind:value={weightWeight} max={1} step={0.05} />
+          <span class="w-12">{weightWeight[0].toFixed(2)}</span>
         </div>
 
         <div class="flex items-center space-x-8">
-          <span class="w-36">Num. Matches</span>
-          <Slider bind:value={numMatchesWeight} max={1} step={0.1} />
-          <span class="w-8">{numMatchesWeight}</span>
+          <span class="w-36">Fight Count</span>
+          <Slider bind:value={fightCountWeight} max={1} step={0.05} />
+          <span class="w-12">{fightCountWeight[0].toFixed(2)}</span>
         </div>
 
         <div class="flex items-center space-x-8">
           <span class="w-36">Num. Pairs</span>
-          <Slider bind:value={numPairsWeight} max={1} step={0.1} />
-          <span class="w-8">{numPairsWeight}</span>
+          <Slider bind:value={numPairsWeight} max={1} step={0.05} />
+          <span class="w-12">{numPairsWeight[0].toFixed(2)}</span>
         </div>
       </div>
 
@@ -269,9 +278,9 @@
       <div class="space-y-4 my-4">
         {#if matchups.length > 0}
           <div>
-            <p class="text-center">{matchups.length} / {Math.floor(boxers.length / 2)} paired</p>
+            <p class="text-center">{matchups.length} / {Math.floor(boxers.length / 2)} Pairs</p>
             <p class="text-center text-sm">{maxWeightDiff}kg Max Weight Difference</p>
-            <p class="text-center text-sm">{maxNumMatchesDiff} Max Num. Matches Difference</p>
+            <p class="text-center text-sm">{maxfightCountDiff} Max Fight Count Difference</p>
           </div>
         {/if}
 
@@ -279,16 +288,16 @@
           <div class="flex justify-between items-center p2-3 px-3">
             <div>
               <p class="font-bold">{boxer1.name}</p>
-              <p class="text-xs">{boxer1.year} - {boxer1.club} - {boxer1.numMatches}</p>
+              <p class="text-xs">{boxer1.year} - {boxer1.club} - {boxer1.fightCount}</p>
               <Badge>{boxer1.weight}kg</Badge>
             </div>
             <div>
               <p class="text-sm font-bold">vs</p>
-              <p class="text-xs">{Score([boxer1, boxer2])}</p>
+              <p class="text-xs">{Score([boxer1, boxer2]).toFixed(2)}</p>
             </div>
             <div>
               <p class="font-bold">{boxer2.name}</p>
-              <p class="text-xs">{boxer2.year} - {boxer2.club} - {boxer2.numMatches}</p>
+              <p class="text-xs">{boxer2.year} - {boxer2.club} - {boxer2.fightCount}</p>
               <Badge>{boxer2.weight}kg</Badge>
             </div>
           </div>
