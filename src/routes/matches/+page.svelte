@@ -4,11 +4,11 @@
   import { Button } from '$lib/components/ui/button/index.js';
   import { Badge } from '$lib/components/ui/badge/index.js';
   import Shuffle from 'lucide-svelte/icons/shuffle';
-  import type { Boxer } from '$lib/boxer';
+  import type { Boxer } from '$lib/Boxer';
 
-  let weightWeight: number[] = $state([0.5]);
-  let numPairsWeight: number[] = $state([0.5]);
-  let numMatchesWeight: number[] = $state([0.5]);
+  let weightWeight: number[] = $state([0.8]);
+  let numPairsWeight: number[] = $state([0.3]);
+  let numMatchesWeight: number[] = $state([0.3]);
 
   let optimizing: boolean = $state(false);
   let matchups: [Boxer, Boxer][] = $state([]);
@@ -39,12 +39,8 @@
     }))
   );
 
-  const normalize = (arr: number[]): number[] => {
-    const min = Math.min(...arr);
-    const max = Math.max(...arr);
-
-    return arr.map((val) => (val - min) / (max - min));
-  };
+  let maxWeightDiff = $derived(Math.max(...matchups.map(matchup => Math.abs(matchup[0].weight - matchup[1].weight))));
+  let maxNumMatchesDiff = $derived(Math.max(...matchups.map(matchup => Math.abs(matchup[0].numMatches - matchup[1].numMatches))));
 
   const isUnderage = (year: number): boolean => {
     const currentYear = new Date().getFullYear();
@@ -80,9 +76,13 @@
     return pairs;
   };
 
+  const normalize = (value: number, min: number, max: number): number => {
+    return (value - min) / (max - min);
+  };
+
   const Score = (pair: [Boxer, Boxer]): number => {
     // Better to do relative weight difference.
-    const weightDiff = Math.abs(pair[0].weight - pair[1].weight);
+    const weightDiff = Math.abs(pair[0].weight - pair[1].weight) * (80 / Math.min(pair[0].weight, pair[1].weight));
     const numMatchesDiff = Math.abs(pair[0].numMatches - pair[1].numMatches);
 
     const score = weightDiff * weightWeight[0] + numMatchesDiff * numMatchesWeight[0];
@@ -131,19 +131,29 @@
 
       if (pairs.length == 0 || (Math.random() < 0.5 && unmatched.size >= 2)) {
         const unmatchedArray = Array.from(unmatched);
-        const index1 = Math.floor(Math.random() * unmatchedArray.length);
-        let index2;
-        do {
-          index2 = Math.floor(Math.random() * unmatchedArray.length);
-        } while (index2 === index1);
+        
+        let index1 = 0;
+        let index2 = 0;
 
-        // FIXME: add pairing constraints
-        const first = unmatchedArray[index1];
-        const second = unmatchedArray[index2];
+        for (let j = 0 ; j<10 ; j++) {
+          index1 = Math.floor(Math.random() * unmatchedArray.length);
+          do {
+            index2 = Math.floor(Math.random() * unmatchedArray.length);
+          } while (index2 === index1);
 
-        pairs.push([first, second]);
-        unmatched.delete(first);
-        unmatched.delete(second);
+          if (!AreConstraint(unmatchedArray[index1], unmatchedArray[index2])) {
+            break;
+          }
+        }
+
+        if (index1 != index2) {
+          const first = unmatchedArray[index1];
+          const second = unmatchedArray[index2];
+
+          pairs.push([first, second]);
+          unmatched.delete(first);
+          unmatched.delete(second);
+        }
         //console.log(`Adding pair (${i}): ${[first, second]}`);
       } else {
         const index = Math.floor(Math.random() * pairs.length);
@@ -255,6 +265,8 @@
         {#if matchups.length > 0}
           <div>
             <p class="text-center">{matchups.length} / {Math.floor(boxers.length / 2)} paired</p>
+            <p class="text-center text-sm">{maxWeightDiff}kg Max Weight Difference</p>
+            <p class="text-center text-sm">{maxNumMatchesDiff} Max Num. Matches Difference</p>
           </div>
         {/if}
 
@@ -266,7 +278,8 @@
               <Badge>{boxer1.weight}kg</Badge>
             </div>
             <div>
-              <p class="text-xs">vs {Score([boxer1, boxer2])}</p>
+              <p class="text-sm font-bold">vs</p>
+              <p class="text-xs">{Score([boxer1, boxer2])}</p>
             </div>
             <div>
               <p class="font-bold">{boxer2.name}</p>
