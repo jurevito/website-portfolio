@@ -84,6 +84,11 @@
     return currentYear - year <= 18;
   };
 
+  const isBetweenAge = (year: number, from_age: number, until_age: number): boolean => {
+    const currentYear = new Date().getFullYear();
+    return (currentYear - year >= from_age) && (currentYear - year <= until_age);
+  };
+
   const AreConstraint = (boxer1: Boxer, boxer2: Boxer): boolean => {
     if (boxer1.club === boxer2.club) {
       return true;
@@ -93,8 +98,19 @@
       return true;
     }
 
-    const ageDiff = Math.abs(boxer1.year - boxer2.year);
-    if (ageDiff > 1 && isUnderage(boxer1.year)) {
+    if (isBetweenAge(boxer1.year, 17, 18) !== isBetweenAge(boxer2.year, 17, 18)) {
+      return true;
+    }
+
+    if (isBetweenAge(boxer1.year, 15, 16) !== isBetweenAge(boxer2.year, 15, 16)) {
+      return true;
+    }
+
+    if (isBetweenAge(boxer1.year, 13, 14) !== isBetweenAge(boxer2.year, 13, 14)) {
+      return true;
+    }
+
+    if (isBetweenAge(boxer1.year, 11, 12) !== isBetweenAge(boxer2.year, 11, 12)) {
       return true;
     }
 
