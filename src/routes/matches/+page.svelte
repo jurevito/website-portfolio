@@ -58,10 +58,13 @@
       parseCSV(csv);
     };
     reader.readAsText(file);
+    matchups = [];
   };
 
   const parseCSV = (csv: string) => {
-    const lines = csv.split("\n").filter((line) => line.trim() !== ""); // Split into lines
+    const lines = csv.split("\n")
+      .map((line) => line.trim())
+      .filter((line) => line !== "");
     const data = lines.slice(1);
 
     boxers = data.map((line) => {
@@ -179,7 +182,7 @@
         let index1 = 0;
         let index2 = 0;
 
-        for (let j = 0; j < 10; j++) {
+        for (let j = 0; j < 50; j++) {
           index1 = Math.floor(Math.random() * unmatchedArray.length);
           do {
             index2 = Math.floor(Math.random() * unmatchedArray.length);
@@ -190,10 +193,10 @@
           }
         }
 
-        if (index1 != index2) {
-          const first = unmatchedArray[index1];
-          const second = unmatchedArray[index2];
+        const first = unmatchedArray[index1];
+        const second = unmatchedArray[index2];
 
+        if (index1 != index2 && !AreConstraint(first, second)) {
           pairs.push([first, second]);
           unmatched.delete(first);
           unmatched.delete(second);
@@ -212,7 +215,7 @@
       const score = TotalScore(pairs);
       if (score < bestScore || Math.random() < temperature) {
         console.log(
-          `New best score (${i}): ${score}, temperature: ${temperature}, new best pairs: ${pairs.length}`
+          //`New best score (${i}): ${score}, temperature: ${temperature}, new best pairs: ${pairs.length}`
         );
         bestPairs = pairs;
         bestUnmatched = unmatched;
@@ -239,7 +242,7 @@
         .sort((a, b) => a.weight - b.weight)
         .sort((a, b) => Number(a.hasMatch) - Number(b.hasMatch));
 
-      matchups = tmp1.sort((a, b) => Score(a) - Score(b));
+      matchups = tmp1.sort((a, b) => Score(b) - Score(a));
       optimizing = false;
     }, 0);
   };
