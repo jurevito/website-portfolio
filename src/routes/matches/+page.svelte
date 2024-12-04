@@ -10,9 +10,9 @@
   import Cross from 'lucide-svelte/icons/x';
   import type { Boxer } from '$lib/Boxer';
 
-  let weightWeight: number[] = $state([0.8]);
-  let numPairsWeight: number[] = $state([0.3]);
-  let fightCountWeight: number[] = $state([0.3]);
+  let weightWeight: number[] = $state([0.5]);
+  let numPairsWeight: number[] = $state([0.5]);
+  let fightCountWeight: number[] = $state([0.5]);
 
   let optimizing: boolean = $state(false);
   let matchups: [Boxer, Boxer][] = $state([]);
@@ -132,7 +132,7 @@
       Math.abs(pair[0].weight - pair[1].weight) * (80 / Math.min(pair[0].weight, pair[1].weight));
     const fightCountDiff = Math.abs(pair[0].fightCount - pair[1].fightCount);
 
-    const score = weightDiff * weightWeight[0] + fightCountDiff * fightCountWeight[0];
+    const score = weightDiff * weightWeight[0] * 2 + fightCountDiff * fightCountWeight[0];
     return score;
   };
 
