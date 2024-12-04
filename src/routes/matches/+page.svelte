@@ -88,8 +88,12 @@
       return true;
     }
 
+    if (isUnderage(boxer1.year) !== isUnderage(boxer2.year)) {
+      return true;
+    }
+
     const ageDiff = Math.abs(boxer1.year - boxer2.year);
-    if (ageDiff > 2 && (isUnderage(boxer1.year) || isUnderage(boxer2.year))) {
+    if (ageDiff > 1 && (isUnderage(boxer1.year) || isUnderage(boxer2.year))) {
       return true;
     }
 
