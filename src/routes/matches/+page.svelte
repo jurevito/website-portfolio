@@ -80,7 +80,7 @@
 
   const isUnderage = (year: number): boolean => {
     const currentYear = new Date().getFullYear();
-    return currentYear - year < 18;
+    return currentYear - year <= 18;
   };
 
   const AreConstraint = (boxer1: Boxer, boxer2: Boxer): boolean => {
@@ -93,7 +93,7 @@
     }
 
     const ageDiff = Math.abs(boxer1.year - boxer2.year);
-    if (ageDiff > 1 && (isUnderage(boxer1.year) || isUnderage(boxer2.year))) {
+    if (ageDiff > 1 && isUnderage(boxer1.year)) {
       return true;
     }
 
