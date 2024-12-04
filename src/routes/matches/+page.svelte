@@ -3,6 +3,8 @@
   import { Slider } from '$lib/components/ui/slider/index.js';
   import { Button } from '$lib/components/ui/button/index.js';
   import { Badge } from '$lib/components/ui/badge/index.js';
+  import { Input } from "$lib/components/ui/input/index.js";
+  import { Label } from "$lib/components/ui/label/index.js";
   import Shuffle from 'lucide-svelte/icons/shuffle';
   import Check from 'lucide-svelte/icons/check';
   import Cross from 'lucide-svelte/icons/x';
@@ -40,6 +42,41 @@
       hasMatch: true,
     }))
   );
+
+  const clearBoxers = () => {
+    boxers = [];
+  };
+
+  const handleFileAdded = (event: Event) => {
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const csv = e.target?.result as string;
+      parseCSV(csv);
+    };
+    reader.readAsText(file);
+  };
+
+  const parseCSV = (csv: string) => {
+    const lines = csv.split("\n").filter((line) => line.trim() !== ""); // Split into lines
+    const data = lines.slice(1);
+
+    boxers = data.map((line) => {
+      console.log(line)
+      const [name, year, weight, fightCount, club] = line.split(";");
+      return {
+        year: parseInt(year.trim()),
+        name: name.trim().toUpperCase(),
+        club: club.trim(),
+        weight: parseFloat(weight.trim()),
+        fightCount: parseInt(fightCount.trim()),
+        hasMatch: true,
+      };
+    });
+  }
 
   let maxWeightDiff = $derived(
     Math.max(...matchups.map((matchup) => Math.abs(matchup[0].weight - matchup[1].weight)))
@@ -210,38 +247,50 @@
 
 <div class="mx-auto max-w-7xl px-4 my-8 font-mont">
   <div class="flex flex-col md:flex-row md:space-x-10">
+
     <div class="w-full md:w-1/2">
-      <Table.Root>
-        <Table.Caption>List of registered boxers.</Table.Caption>
-        <Table.Header>
-          <Table.Row>
-            <Table.Head>Name</Table.Head>
-            <Table.Head>Club</Table.Head>
-            <Table.Head>Year</Table.Head>
-            <Table.Head>Weight</Table.Head>
-            <Table.Head>Num. Matches</Table.Head>
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {#each boxers as boxer}
+    {#if boxers.length == 0}
+      <div class="grid w-full max-w-sm items-center gap-1.5">
+        <Label for="csv-file">Upload CSV File</Label>
+        <Input id="csv-file" type="file" accept=".csv" onchange={handleFileAdded} />
+      </div>
+    {:else}
+      <Button onclick={clearBoxers}>Clear Boxers</Button>
+      <div>
+        <Table.Root>
+          <Table.Caption>List of {boxers.length} registered boxers.</Table.Caption>
+          <Table.Header>
             <Table.Row>
-              <Table.Cell class="flex">
-                {#if boxer.hasMatch}
-                  <Check class="mr-2 size-4 text-green-500" />
-                {:else}
-                  <Cross class="mr-2 size-4 text-red-500" />
-                {/if}
-                {boxer.name}
-              </Table.Cell>
-              <Table.Cell>{boxer.club}</Table.Cell>
-              <Table.Cell>{boxer.year}</Table.Cell>
-              <Table.Cell>{boxer.weight}</Table.Cell>
-              <Table.Cell>{boxer.fightCount}</Table.Cell>
+              <Table.Head>Name</Table.Head>
+              <Table.Head>Club</Table.Head>
+              <Table.Head>Year</Table.Head>
+              <Table.Head>Weight</Table.Head>
+              <Table.Head>Num. Matches</Table.Head>
             </Table.Row>
-          {/each}
-        </Table.Body>
-      </Table.Root>
+          </Table.Header>
+          <Table.Body>
+            {#each boxers as boxer}
+              <Table.Row>
+                <Table.Cell class="flex">
+                  {#if boxer.hasMatch}
+                    <Check class="mr-2 size-4 text-green-500" />
+                  {:else}
+                    <Cross class="mr-2 size-4 text-red-500" />
+                  {/if}
+                  {boxer.name}
+                </Table.Cell>
+                <Table.Cell>{boxer.club}</Table.Cell>
+                <Table.Cell>{boxer.year}</Table.Cell>
+                <Table.Cell>{boxer.weight}</Table.Cell>
+                <Table.Cell>{boxer.fightCount}</Table.Cell>
+              </Table.Row>
+            {/each}
+          </Table.Body>
+        </Table.Root>
+      </div>
+    {/if}
     </div>
+
     <div class="w-full md:w-1/2">
       <h2 class="text-center my-4 text-lg">Optimization Settings</h2>
       <div class="space-y-4 text-sm">
