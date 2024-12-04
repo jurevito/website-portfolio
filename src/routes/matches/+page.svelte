@@ -9,6 +9,7 @@
   import Check from 'lucide-svelte/icons/check';
   import Cross from 'lucide-svelte/icons/x';
   import type { Boxer } from '$lib/Boxer';
+  import { BooleanKeyframeTrack } from 'three';
 
   let weightWeight: number[] = $state([0.5]);
   let numPairsWeight: number[] = $state([0.5]);
@@ -54,10 +55,10 @@
   const parseCSV = (csv: string) => {
     const lines = csv.split("\n")
       .map((line) => line.trim())
-      .filter((line) => line !== "");
-    const data = lines.slice(1);
+      .filter((line) => line !== "")
+      .slice(1);
 
-    boxers = data.map((line) => {
+    boxers = lines.map((line) => {
       console.log(line)
       const [name, year, weight, fightCount, club] = line.split(";");
       return {
@@ -68,7 +69,7 @@
         fightCount: parseInt(fightCount.trim()),
         hasMatch: true,
       };
-    });
+    }).filter(b => b.name);
   }
 
   let maxWeightDiff = $derived(
