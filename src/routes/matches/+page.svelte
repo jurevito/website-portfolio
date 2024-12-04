@@ -31,17 +31,7 @@
     return clubs[getRandomInt(0, clubs.length - 1)];
   }
 
-  // Generate an array of 100 random boxers
-  let boxers: Boxer[] = $state(
-    Array.from({ length: 100 }, () => ({
-      year: getRandomInt(1980, 2010),
-      name: getRandomName(),
-      club: getRandomClub(),
-      weight: getRandomInt(50, 110),
-      fightCount: getRandomInt(0, 30),
-      hasMatch: true,
-    }))
-  );
+  let boxers: Boxer[] = $state([]);
 
   const clearBoxers = () => {
     boxers = [];
