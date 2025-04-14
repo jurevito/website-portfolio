@@ -19,6 +19,7 @@
   import Shuffle from 'lucide-svelte/icons/shuffle';
   import Matchup from '$lib/matchups/Matchup.svelte';
 
+  let totalPairs: number = $state(0);
   let matched: boolean = $state(false);
   let optimizing: boolean = $state(false);
   let boxers: Boxer[] = $state([]);
@@ -56,6 +57,7 @@
     boxers = [];
     matched = false;
     optimizing = false;
+    totalPairs = 0;
   }
 
   interface ScoredMatch {
@@ -96,6 +98,7 @@
 
   function GetMatchups() {
     optimizing = true;
+    let numPaired = 0;
 
     GENDERS.forEach((gender, _) => {
       AGE_GROUPS.forEach((ageGroup, _) => {
@@ -106,6 +109,7 @@
 
           const boxersInCategory = boxers.filter(
             (boxer) =>
+              !boxer.hasMatch &&
               boxer.gender === gender &&
               ageGroup === getAgeGroup(boxer.year) &&
               isInWeightClass(boxer.weight, lowerBound, upperBound)
@@ -113,6 +117,7 @@
 
           const optimalPairs = optimize(boxersInCategory);
           matches[gender][ageGroup].push(...optimalPairs);
+          numPaired += optimalPairs.length;
         }
 
         boxers = boxers.map((boxer) => ({
@@ -133,6 +138,7 @@
 
     matched = true;
     optimizing = false;
+    totalPairs = numPaired;
   }
 </script>
 
@@ -194,6 +200,7 @@
       </div>
 
       {#if matched}
+        <p class="mt-2">Found {totalPairs} pairs.</p>
         <div class="mt-12">
           {#each GENDERS as gender}
             <h2 class="text-center font-bold text-lg">{gender.toUpperCase()}</h2>
