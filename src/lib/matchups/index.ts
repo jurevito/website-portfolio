@@ -24,7 +24,7 @@ export function isInWeightClass(
 }
 
 export function getExperienceLevel(numMatches: number): Experience {
-  if (numMatches > 15) return Experience.A;
+  if (numMatches >= 15) return Experience.A;
   if (numMatches >= 5) return Experience.B;
   if (numMatches >= 1) return Experience.C;
 
