@@ -19,6 +19,7 @@
   import Shuffle from 'lucide-svelte/icons/shuffle';
   import Matchup from '$lib/matchups/Matchup.svelte';
 
+  let matched: boolean = $state(false);
   let optimizing: boolean = $state(false);
   let boxers: Boxer[] = $state([]);
   let matches: Matches = $state<Matches>({
@@ -49,11 +50,12 @@
       boxers = parseCSV(csv);
     };
     reader.readAsText(file);
-    // TODO: clear matchups
   }
 
   function clearBoxers() {
     boxers = [];
+    matched = false;
+    optimizing = false;
   }
 
   interface ScoredMatch {
@@ -113,13 +115,23 @@
           matches[gender][ageGroup].push(...optimalPairs);
         }
 
-        console.log(`(${gender} - ${ageGroup}) tmp: ${matches[gender][ageGroup].length}`);
-        //matches[gender][ageGroup] = matches[gender][ageGroup];
-        //console.log(`(${gender} - ${ageGroup}) Num. pairs: ${matches[gender][ageGroup].length}`);
-        // TODO mark them as matched.
+        boxers = boxers.map((boxer) => ({
+          ...boxer,
+          hasMatch:
+            matches[gender][ageGroup].some(
+              (match) => match[0].name === boxer.name || match[1].name === boxer.name
+            ) || boxer.hasMatch,
+        }));
       });
     });
 
+    boxers.sort((a, b) => {
+      if (!a.hasMatch && b.hasMatch) return -1;
+      if (a.hasMatch && !b.hasMatch) return 1;
+      return a.weight - b.weight;
+    });
+
+    matched = true;
     optimizing = false;
   }
 </script>
@@ -171,36 +183,39 @@
 
     <div class="rounded-md shadow p-6 overflow-y-auto max-h-screen">
       <div>
-        <Button onclick={GetMatchups} disabled={optimizing} class="w-full sm:w-auto min-w-[14rem]">
+        <Button onclick={GetMatchups} disabled={optimizing} class="w-full sm:w-auto min-w-[12rem]">
           <Shuffle class="mr-2 size-4" />
           {#if optimizing}
             Optimizing...
           {:else}
-            Optimize Matchups
+            Find Matchups
           {/if}
         </Button>
       </div>
-      <div class="mt-12">
-        {#each GENDERS as gender}
-          <h2 class="text-center font-bold text-lg">{gender.toUpperCase()}</h2>
-          <div class="h-px bg-gray-300 my-2 w-full"></div>
 
-          <div class="space-y-6">
-            {#each AGE_GROUPS as ageGroup}
-              {#if matches[gender][ageGroup].length > 0}
-                <div class="my-4">
-                  <h3 class="font-bold">{ageGroup.toUpperCase()}</h3>
-                  <div class="space-y-4">
-                    {#each matches[gender][ageGroup] as match}
-                      <Matchup {match} />
-                    {/each}
+      {#if matched}
+        <div class="mt-12">
+          {#each GENDERS as gender}
+            <h2 class="text-center font-bold text-lg">{gender.toUpperCase()}</h2>
+            <div class="h-px bg-gray-300 my-2 w-full"></div>
+
+            <div class="space-y-6">
+              {#each AGE_GROUPS as ageGroup}
+                {#if matches[gender][ageGroup].length > 0}
+                  <div class="my-4">
+                    <h3 class="font-bold">{ageGroup.toUpperCase()}</h3>
+                    <div class="space-y-4">
+                      {#each matches[gender][ageGroup] as match}
+                        <Matchup {match} />
+                      {/each}
+                    </div>
                   </div>
-                </div>
-              {/if}
-            {/each}
-          </div>
-        {/each}
-      </div>
+                {/if}
+              {/each}
+            </div>
+          {/each}
+        </div>
+      {/if}
     </div>
   </div>
 </div>

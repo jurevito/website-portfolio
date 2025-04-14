@@ -71,7 +71,7 @@ export function parseCSV(content: string): Boxer[] {
         club: club.trim(),
         weight: parseFloat(weight.trim()),
         fightCount: parseInt(fightCount.trim()),
-        hasMatch: true,
+        hasMatch: false,
       };
     })
     .filter((b) => b.name);
