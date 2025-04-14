@@ -3,14 +3,42 @@
   import Input from '$lib/components/ui/input/input.svelte';
   import Label from '$lib/components/ui/label/label.svelte';
   import * as Table from '$lib/components/ui/table/index.js';
-  import { parseCSV } from '$lib/matchups';
-  import type { Boxer } from '$lib/matchups/types';
+  import { getAgeGroup, getMatchupScore, isInWeightClass, parseCSV } from '$lib/matchups';
+  import {
+    AGE_GROUPS,
+    AgeGroup,
+    Gender,
+    GENDERS,
+    WEIGHT_CLASSES,
+    type Boxer,
+    type BoxingMatch,
+    type Matches,
+  } from '$lib/matchups/types';
   import Check from 'lucide-svelte/icons/check';
   import Cross from 'lucide-svelte/icons/x';
+  import Shuffle from 'lucide-svelte/icons/shuffle';
+  import Matchup from '$lib/matchups/Matchup.svelte';
 
+  let optimizing: boolean = $state(false);
   let boxers: Boxer[] = $state([]);
+  let matches: Matches = $state<Matches>({
+    [Gender.Male]: {
+      [AgeGroup.Elite]: [] as BoxingMatch[],
+      [AgeGroup.Youth]: [] as BoxingMatch[],
+      [AgeGroup.Junior]: [] as BoxingMatch[],
+      [AgeGroup.Kids]: [] as BoxingMatch[],
+      [AgeGroup.Babies]: [] as BoxingMatch[],
+    },
+    [Gender.Female]: {
+      [AgeGroup.Elite]: [] as BoxingMatch[],
+      [AgeGroup.Youth]: [] as BoxingMatch[],
+      [AgeGroup.Junior]: [] as BoxingMatch[],
+      [AgeGroup.Kids]: [] as BoxingMatch[],
+      [AgeGroup.Babies]: [] as BoxingMatch[],
+    },
+  });
 
-  const handleFileAdded = (event: Event) => {
+  function handleFileAdded(event: Event) {
     const input = event.target as HTMLInputElement;
     const file = input.files?.[0];
     if (!file) return;
@@ -22,11 +50,78 @@
     };
     reader.readAsText(file);
     // TODO: clear matchups
-  };
+  }
 
-  const clearBoxers = () => {
+  function clearBoxers() {
     boxers = [];
-  };
+  }
+
+  interface ScoredMatch {
+    pair: BoxingMatch;
+    score: number;
+  }
+
+  function optimize(boxersInCategory: Boxer[]): BoxingMatch[] {
+    let allPairs: ScoredMatch[] = [];
+    for (let i = 0; i < boxersInCategory.length - 1; i++) {
+      for (let j = i + 1; j < boxersInCategory.length; j++) {
+        allPairs.push({
+          pair: [boxersInCategory[i], boxersInCategory[j]],
+          score: getMatchupScore(boxersInCategory[i], boxersInCategory[j]),
+        });
+      }
+    }
+
+    allPairs.sort((a, b) => a.score - b.score);
+    allPairs = allPairs.filter((match) => match.score < 1_000);
+
+    const result: BoxingMatch[] = [];
+    const used = new Set<string>();
+
+    for (const { pair } of allPairs) {
+      const [boxer1, boxer2] = pair;
+      if (!used.has(boxer1.name) && !used.has(boxer2.name)) {
+        result.push(pair);
+        used.add(boxer1.name);
+        used.add(boxer2.name);
+      }
+
+      if (used.size + 1 >= boxersInCategory.length) break;
+    }
+
+    return result;
+  }
+
+  function GetMatchups() {
+    optimizing = true;
+
+    GENDERS.forEach((gender, _) => {
+      AGE_GROUPS.forEach((ageGroup, _) => {
+        const weightClasses = WEIGHT_CLASSES[gender][ageGroup];
+        for (let i = 0; i <= weightClasses.length; i++) {
+          const lowerBound = i === 0 ? null : weightClasses[i - 1];
+          const upperBound = i === weightClasses.length ? null : weightClasses[i];
+
+          const boxersInCategory = boxers.filter(
+            (boxer) =>
+              boxer.gender === gender &&
+              ageGroup === getAgeGroup(boxer.year) &&
+              isInWeightClass(boxer.weight, lowerBound, upperBound)
+          );
+
+          const optimalPairs = optimize(boxersInCategory);
+          matches[gender][ageGroup].push(...optimalPairs);
+        }
+
+        console.log(`(${gender} - ${ageGroup}) tmp: ${matches[gender][ageGroup].length}`);
+        //matches[gender][ageGroup] = matches[gender][ageGroup];
+        //console.log(`(${gender} - ${ageGroup}) Num. pairs: ${matches[gender][ageGroup].length}`);
+        // TODO mark them as matched.
+      });
+    });
+
+    optimizing = false;
+  }
 </script>
 
 <div class="mx-auto max-w-screen-2xl px-4 my-8 font-mont">
@@ -74,6 +169,38 @@
       {/if}
     </div>
 
-    <div class="rounded-md shadow p-6">hello</div>
+    <div class="rounded-md shadow p-6 overflow-y-auto max-h-screen">
+      <div>
+        <Button onclick={GetMatchups} disabled={optimizing} class="w-full sm:w-auto min-w-[14rem]">
+          <Shuffle class="mr-2 size-4" />
+          {#if optimizing}
+            Optimizing...
+          {:else}
+            Optimize Matchups
+          {/if}
+        </Button>
+      </div>
+      <div class="mt-12">
+        {#each GENDERS as gender}
+          <h2 class="text-center font-bold text-lg">{gender.toUpperCase()}</h2>
+          <div class="h-px bg-gray-300 my-2 w-full"></div>
+
+          <div class="space-y-6">
+            {#each AGE_GROUPS as ageGroup}
+              {#if matches[gender][ageGroup].length > 0}
+                <div class="my-4">
+                  <h3 class="font-bold">{ageGroup.toUpperCase()}</h3>
+                  <div class="space-y-4">
+                    {#each matches[gender][ageGroup] as match}
+                      <Matchup {match} />
+                    {/each}
+                  </div>
+                </div>
+              {/if}
+            {/each}
+          </div>
+        {/each}
+      </div>
+    </div>
   </div>
 </div>
