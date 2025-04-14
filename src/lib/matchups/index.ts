@@ -61,9 +61,15 @@ export function parseCSV(content: string): Boxer[] {
     .filter((line) => line !== '')
     .slice(1);
 
+  let delimiter = ';';
+  if (lines.length > 0 && !lines[0].includes(';')) {
+    delimiter = ',';
+  }
+
   return lines
+    .filter((line) => line.length > 0)
     .map((line) => {
-      const [name, gender, year, weight, fightCount, club] = line.split(',');
+      const [name, gender, year, weight, fightCount, club] = line.split(delimiter);
       return {
         gender: stringToGender(gender),
         year: parseInt(year.trim()),
