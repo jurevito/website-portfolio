@@ -203,8 +203,8 @@
         <p class="mt-2">Found {totalPairs} pairs.</p>
         <div class="mt-12">
           {#each GENDERS as gender}
-            <h2 class="text-center font-bold text-lg">{gender.toUpperCase()}</h2>
-            <div class="h-px bg-gray-300 my-2 w-full"></div>
+            <h2 class="text-center font-bold">{gender.toUpperCase()}</h2>
+            <div class=" bg-gray-300 h-px mt-1 mb-2 w-full"></div>
 
             <div class="space-y-6">
               {#each AGE_GROUPS as ageGroup}
