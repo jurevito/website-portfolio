@@ -56,6 +56,7 @@
     reader.onload = (e) => {
       const csv = e.target?.result as string;
       boxers = parseCSV(csv);
+      boxers.sort((a, b) => (a.name > b.name ? 1 : -1));
     };
     reader.readAsText(file);
   }
@@ -140,6 +141,11 @@
     boxers.sort((a, b) => {
       if (!a.hasMatch && b.hasMatch) return -1;
       if (a.hasMatch && !b.hasMatch) return 1;
+
+      const indexA = AGE_GROUPS.indexOf(getAgeGroup(a.year));
+      const indexB = AGE_GROUPS.indexOf(getAgeGroup(b.year));
+      if (indexA !== indexB) return indexB - indexA;
+
       return a.weight - b.weight;
     });
 
