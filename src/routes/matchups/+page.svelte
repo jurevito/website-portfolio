@@ -56,14 +56,17 @@
     const reader = new FileReader();
     reader.onload = (e) => {
       const csv = e.target?.result as string;
-      boxers = parseCSV(csv);
-      boxers.sort((a, b) => (a.name > b.name ? 1 : -1));
-      toast.success('Loaded boxers', {
-        description: `Found ${boxers.length} valid boxers inside the CSV file.`,
-      });
-    };
-    reader.onerror = (e) => {
-      console.error(e);
+      try {
+        boxers = parseCSV(csv);
+        boxers.sort((a, b) => (a.name > b.name ? 1 : -1));
+        toast.success('Loaded boxers', {
+          description: `Found ${boxers.length} valid boxers inside the CSV file.`,
+        });
+      } catch (e) {
+        toast.error('Failed loading CSV', {
+          description: (e as Error).message,
+        });
+      }
     };
     reader.readAsText(file);
   }

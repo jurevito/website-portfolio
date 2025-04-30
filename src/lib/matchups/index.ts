@@ -54,6 +54,10 @@ function normalize(value: number, min: number, max: number): number {
   return (value - min) / (max - min);
 }
 
+function getMessage(num: number, name: string, msg: string): string {
+  return `Òn line ${num} for boxer "${name}" ${msg}.`;
+}
+
 export function parseCSV(content: string): Boxer[] {
   const lines = content
     .split('\n')
@@ -61,26 +65,46 @@ export function parseCSV(content: string): Boxer[] {
     .filter((line) => line !== '')
     .slice(1);
 
+  if (lines.length === 0) throw new Error('Number of lines is zero.');
+
   let delimiter = ';';
-  if (lines.length > 0 && !lines[0].includes(';')) {
+  if (!lines[0].includes(';')) {
     delimiter = ',';
   }
 
-  return lines
-    .filter((line) => line.length > 0)
-    .map((line) => {
-      const [name, gender, year, weight, fightCount, club] = line.split(delimiter);
-      return {
-        gender: stringToGender(gender),
-        year: parseInt(year.trim()),
-        name: name.trim().toUpperCase(),
-        club: club.trim(),
-        weight: parseFloat(weight.trim()),
-        fightCount: parseInt(fightCount.trim()),
-        hasMatch: false,
-      };
-    })
-    .filter((b) => b.name);
+  let boxers: Boxer[] = [];
+  for (let i = 0; i < lines.length; i++) {
+    const cleanLine = lines[i].trim().replaceAll(delimiter, '');
+    if (cleanLine.length === 0) continue;
+
+    const [name, gender, yearStr, weightStr, fightCountStr, club] = lines[i].split(delimiter);
+
+    if (name.trim().length === 0) throw new Error(getMessage(i + 1, 'unknown', 'name is missing'));
+
+    const year = parseInt(yearStr.trim());
+    if (Number.isNaN(year)) throw new Error(getMessage(i + 1, name, 'year is missing'));
+
+    const weight = parseInt(weightStr.trim());
+    if (Number.isNaN(weight)) throw new Error(getMessage(i + 1, name, 'weight is missing'));
+
+    const fightCount = parseInt(fightCountStr.trim());
+    if (Number.isNaN(fightCount))
+      throw new Error(getMessage(i + 1, name, 'fight count is missing'));
+
+    if (club.trim().length === 0) throw new Error(getMessage(i + 1, name, 'club is missing'));
+
+    boxers.push({
+      name: name.trim().toUpperCase(),
+      gender: stringToGender(gender),
+      year: year,
+      club: club.trim(),
+      weight: weight,
+      fightCount: fightCount,
+      hasMatch: false,
+    });
+  }
+
+  return boxers;
 }
 
 function stringToGender(field: string): Gender {
