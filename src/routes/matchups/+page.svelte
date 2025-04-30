@@ -213,42 +213,55 @@
       {/if}
     </div>
 
-    <div class="rounded-md shadow p-6 overflow-y-auto max-h-[90vh] bg-white">
-      <div>
-        <Button onclick={GetMatchups} disabled={optimizing} class="w-full sm:w-auto min-w-[12rem]">
-          <Shuffle class="mr-2 size-4" />
-          {#if optimizing}
-            Optimizing...
-          {:else}
-            Find Matchups
-          {/if}
-        </Button>
-      </div>
-
-      {#if matched}
-        <p class="mt-2">Found {totalPairs} pairs.</p>
-        <div class="mt-12">
-          {#each GENDERS as gender}
-            <h2 class="text-center font-bold">{gender.toUpperCase()}</h2>
-            <div class=" bg-gray-300 h-px mt-1 mb-2 w-full"></div>
-
-            <div class="space-y-6">
-              {#each AGE_GROUPS as ageGroup}
-                {#if matches[gender][ageGroup].length > 0}
-                  <div class="my-4">
-                    <h3 class="font-bold">{ageGroup.toUpperCase()}</h3>
-                    <div class="space-y-4">
-                      {#each matches[gender][ageGroup] as match}
-                        <Matchup {match} />
-                      {/each}
-                    </div>
-                  </div>
-                {/if}
-              {/each}
-            </div>
-          {/each}
+    {#if boxers.length !== 0}
+      <div class="rounded-md shadow p-6 overflow-y-auto max-h-[90vh] bg-white">
+        <div>
+          <Button
+            onclick={GetMatchups}
+            disabled={optimizing}
+            class="w-full sm:w-auto min-w-[12rem]"
+          >
+            <Shuffle class="mr-2 size-4" />
+            {#if optimizing}
+              Optimizing...
+            {:else}
+              Find Matchups
+            {/if}
+          </Button>
         </div>
-      {/if}
-    </div>
+
+        {#if matched}
+          <p class="mt-2">Found {totalPairs} pairs.</p>
+        {/if}
+
+        {#if matched}
+          <div class="mt-12">
+            {#each GENDERS as gender}
+              <div class="space-y-6">
+                {#each AGE_GROUPS as ageGroup}
+                  {#if matches[gender][ageGroup].length > 0}
+                    <div class="my-4">
+                      <h3 class="font-bold items-center flex gap-2">
+                        {ageGroup.toUpperCase()}
+                        <span
+                          class="{gender === Gender.Female
+                            ? 'text-pink-500'
+                            : 'text-blue-500'} text-sm">{genderToString(gender)}</span
+                        >
+                      </h3>
+                      <div class="space-y-2">
+                        {#each matches[gender][ageGroup] as match}
+                          <Matchup {match} />
+                        {/each}
+                      </div>
+                    </div>
+                  {/if}
+                {/each}
+              </div>
+            {/each}
+          </div>
+        {/if}
+      </div>
+    {/if}
   </div>
 </div>
