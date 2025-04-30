@@ -90,3 +90,8 @@ function stringToGender(field: string): Gender {
 
   return Gender.Male;
 }
+
+export function genderToString(gender: Gender): string {
+  if (gender === Gender.Male) return 'M';
+  return 'F';
+}
