@@ -3,7 +3,14 @@
   import Input from '$lib/components/ui/input/input.svelte';
   import Label from '$lib/components/ui/label/label.svelte';
   import * as Table from '$lib/components/ui/table/index.js';
-  import { getAgeGroup, getMatchupScore, isInWeightClass, parseCSV } from '$lib/matchups';
+  import {
+    genderToString,
+    getAgeGroup,
+    getExperienceLevel,
+    getMatchupScore,
+    isInWeightClass,
+    parseCSV,
+  } from '$lib/matchups';
   import {
     AGE_GROUPS,
     AgeGroup,
@@ -155,7 +162,6 @@
           <Button onclick={clearBoxers}>Clear Boxers</Button>
           <div>
             <Table.Root>
-              <Table.Caption>List of {boxers.length} registered boxers.</Table.Caption>
               <Table.Header>
                 <Table.Row>
                   <Table.Head>Name</Table.Head>
@@ -168,21 +174,33 @@
               <Table.Body>
                 {#each boxers as boxer}
                   <Table.Row>
-                    <Table.Cell class="flex">
+                    <Table.Cell class="flex items-center gap-2">
                       {#if boxer.hasMatch}
-                        <Check class="mr-2 size-4 text-green-500" />
+                        <Check class=" text-green-500 size-3" />
                       {:else}
-                        <Cross class="mr-2 size-4 text-red-500" />
+                        <Cross class="size-3 text-red-500" />
                       {/if}
-                      {boxer.name}
+                      <span>{boxer.name}</span>
+                      <span
+                        class="{boxer.gender === Gender.Female
+                          ? 'text-pink-500'
+                          : 'text-blue-500'} text-sm">{genderToString(boxer.gender)}</span
+                      >
                     </Table.Cell>
                     <Table.Cell>{boxer.club}</Table.Cell>
-                    <Table.Cell>{boxer.year}</Table.Cell>
-                    <Table.Cell>{boxer.weight}</Table.Cell>
-                    <Table.Cell>{boxer.fightCount}</Table.Cell>
+                    <Table.Cell class="flex gap-2">
+                      <span>{boxer.year}</span>
+                      <span class="text-gray-500">{getAgeGroup(boxer.year)}</span>
+                    </Table.Cell>
+                    <Table.Cell>{boxer.weight}kg</Table.Cell>
+                    <Table.Cell class="flex gap-2">
+                      <span>{boxer.fightCount}</span>
+                      <span class="text-gray-500">{getExperienceLevel(boxer.fightCount)}</span>
+                    </Table.Cell>
                   </Table.Row>
                 {/each}
               </Table.Body>
+              <Table.Caption>List of {boxers.length} registered boxers.</Table.Caption>
             </Table.Root>
           </div>
         </div>
