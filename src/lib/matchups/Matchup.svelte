@@ -1,11 +1,15 @@
 <script lang="ts">
   import type { BoxingMatch } from './types';
 
-  let { match } = $props();
+  interface Props {
+    match: BoxingMatch;
+  }
+
+  let { match }: Props = $props();
 </script>
 
 {#if match}
-  <div class="flex rounded-md shadow p-4">
+  <div class="flex p-4">
     <div class="w-1/2">
       <p>{match[0].name}</p>
       <p class="text-xs text-gray-500">
