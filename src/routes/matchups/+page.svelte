@@ -167,8 +167,8 @@
 </script>
 
 <div class="mx-auto max-w-screen-2xl px-4 py-8 font-mont bg-gray-100 h-full w-full">
-  <div class="grid grid-cols-2 gap-8">
-    <div class="rounded-md shadow p-6 overflow-y-auto max-h-[90vh] bg-white">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <div class="rounded-md shadow p-6 md:overflow-y-auto md:max-h-[90vh] bg-white">
       {#if boxers.length == 0}
         <div class="space-y-2">
           <Label for="csv-file">Upload CSV File</Label>
@@ -225,7 +225,7 @@
     </div>
 
     {#if boxers.length !== 0}
-      <div class="rounded-md shadow p-6 overflow-y-auto max-h-[90vh] bg-white space-y-6">
+      <div class="rounded-md shadow p-6 md:overflow-y-auto md:max-h-[90vh] bg-white space-y-6">
         <div class="space-y-4">
           <Button
             onclick={GetMatchups}
