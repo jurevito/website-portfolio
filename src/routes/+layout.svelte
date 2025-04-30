@@ -3,5 +3,5 @@
   import { Toaster } from '$lib/components/ui/sonner/index.js';
 </script>
 
-<Toaster />
+<Toaster position="bottom-center" />
 <slot />

@@ -25,6 +25,7 @@
   import Cross from 'lucide-svelte/icons/x';
   import Shuffle from 'lucide-svelte/icons/shuffle';
   import Matchup from '$lib/matchups/Matchup.svelte';
+  import { toast } from 'svelte-sonner';
 
   let totalPairs: number = $state(0);
   let matched: boolean = $state(false);
@@ -57,6 +58,12 @@
       const csv = e.target?.result as string;
       boxers = parseCSV(csv);
       boxers.sort((a, b) => (a.name > b.name ? 1 : -1));
+      toast.success('Loaded boxers', {
+        description: `Found ${boxers.length} valid boxers inside the CSV file.`,
+      });
+    };
+    reader.onerror = (e) => {
+      console.error(e);
     };
     reader.readAsText(file);
   }
@@ -152,6 +159,7 @@
     matched = true;
     optimizing = false;
     totalPairs = numPaired;
+    toast.success('Matchups created', { description: `Found total of ${numPaired} pairs.` });
   }
 </script>
 
@@ -214,8 +222,8 @@
     </div>
 
     {#if boxers.length !== 0}
-      <div class="rounded-md shadow p-6 overflow-y-auto max-h-[90vh] bg-white">
-        <div>
+      <div class="rounded-md shadow p-6 overflow-y-auto max-h-[90vh] bg-white space-y-6">
+        <div class="space-y-4">
           <Button
             onclick={GetMatchups}
             disabled={optimizing}
@@ -229,10 +237,6 @@
             {/if}
           </Button>
         </div>
-
-        {#if matched}
-          <p class="mt-2">Found {totalPairs} pairs.</p>
-        {/if}
 
         {#if matched}
           <div class="mt-12">
