@@ -79,19 +79,24 @@ export function parseCSV(content: string): Boxer[] {
 
     const [name, gender, yearStr, weightStr, fightCountStr, club] = lines[i].split(delimiter);
 
-    if (name.trim().length === 0) throw new Error(getMessage(i + 1, 'unknown', 'name is missing'));
+    if (!name || name.trim().length === 0)
+      throw new Error(getMessage(i + 1, 'unknown', 'name is missing'));
 
+    if (!yearStr) throw new Error(getMessage(i + 1, name, 'year is missing'));
     const year = parseInt(yearStr.trim());
-    if (Number.isNaN(year)) throw new Error(getMessage(i + 1, name, 'year is missing'));
+    if (Number.isNaN(year)) throw new Error(getMessage(i + 1, name, 'year is not a number'));
 
+    if (!weightStr) throw new Error(getMessage(i + 1, name, 'weight is missing'));
     const weight = parseInt(weightStr.trim());
-    if (Number.isNaN(weight)) throw new Error(getMessage(i + 1, name, 'weight is missing'));
+    if (Number.isNaN(weight)) throw new Error(getMessage(i + 1, name, 'weight is not a number'));
 
+    if (!fightCountStr) throw new Error(getMessage(i + 1, name, 'fight count is missing'));
     const fightCount = parseInt(fightCountStr.trim());
     if (Number.isNaN(fightCount))
-      throw new Error(getMessage(i + 1, name, 'fight count is missing'));
+      throw new Error(getMessage(i + 1, name, 'fight count is not a number'));
 
-    if (club.trim().length === 0) throw new Error(getMessage(i + 1, name, 'club is missing'));
+    if (!club || club.trim().length === 0)
+      throw new Error(getMessage(i + 1, name, 'club is missing'));
 
     boxers.push({
       name: name.trim().toUpperCase(),
