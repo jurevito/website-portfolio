@@ -125,6 +125,10 @@
           const lowerBound = i === 0 ? null : weightClasses[i - 1];
           const upperBound = i === weightClasses.length ? null : weightClasses[i];
 
+          if (lowerBound !== null && upperBound !== null && lowerBound >= upperBound) {
+            console.error('Weight categories are not setup correctly');
+          }
+
           const boxersInCategory = boxers.filter(
             (boxer) =>
               !boxer.hasMatch &&
