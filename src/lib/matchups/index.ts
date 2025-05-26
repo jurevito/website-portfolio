@@ -1,4 +1,4 @@
-import { AgeGroup, Experience, Gender } from './types';
+import { AgeGroup, Experience, Gender, WEIGHT_CLASSES } from './types';
 import type { Boxer } from './types';
 
 export function getAgeGroup(year: number): AgeGroup {
@@ -21,6 +21,25 @@ export function isInWeightClass(
   const aboveLower = lower == null || weight > lower;
 
   return bellowUpper && aboveLower;
+}
+
+export function getWeightClassString(boxer: Boxer): string {
+  const weight = getWeightClass(boxer);
+  if (weight) {
+    return weight.toFixed(0);
+  }
+  return '/';
+}
+
+export function getWeightClass(boxer: Boxer): number | null {
+  const ageGroup = getAgeGroup(boxer.year);
+  const weights = WEIGHT_CLASSES[boxer.gender][ageGroup];
+
+  const weightClass = weights.filter((w) => w > boxer.weight).pop();
+  if (weightClass) {
+    return weightClass;
+  }
+  return null;
 }
 
 export function getExperienceLevel(numMatches: number): Experience {
@@ -136,4 +155,14 @@ function stringToGender(field: string): Gender {
 export function genderToString(gender: Gender): string {
   if (gender === Gender.Male) return 'M';
   return 'F';
+}
+
+export function compareGender(g1: Gender, g2: Gender): number {
+  if (g1 === Gender.Male && g2 === Gender.Female) {
+    return -1;
+  }
+  if (g1 === Gender.Female && g2 === Gender.Male) {
+    return 1;
+  }
+  return 0;
 }

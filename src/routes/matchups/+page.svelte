@@ -4,10 +4,12 @@
   import Label from '$lib/components/ui/label/label.svelte';
   import * as Table from '$lib/components/ui/table/index.js';
   import {
+    compareGender,
     genderToString,
     getAgeGroup,
     getExperienceLevel,
     getMatchupScore,
+    getWeightClassString,
     isInWeightClass,
     parseCSV,
   } from '$lib/matchups';
@@ -77,14 +79,16 @@
     let data: string[] = [];
     data.push(match[0].name);
     data.push(getAgeGroup(match[0].year));
-    data.push(match[0].weight.toFixed(0));
+    data.push(getWeightClassString(match[0]));
+    data.push(getExperienceLevel(match[0].fightCount));
     data.push(match[0].club.toUpperCase());
 
     data.push('-');
 
     data.push(match[1].name);
     data.push(getAgeGroup(match[1].year));
-    data.push(match[1].weight.toFixed(0));
+    data.push(getWeightClassString(match[1]));
+    data.push(getExperienceLevel(match[1].fightCount));
     data.push(match[1].club.toUpperCase());
 
     return data.join(',');
@@ -92,15 +96,64 @@
 
   const exportCSV = () => {
     let lines: string[] = [];
-    for (const ageGroup of [AgeGroup.Kids, AgeGroup.Cadets, AgeGroup.Junior, AgeGroup.Youth]) {
-      //const line = csvLineFromMatchup()
-      matches.Female[ageGroup];
-    }
 
-    for (const experience of [Experience.B, Experience.A]) {
-      for (const ageGroup of AGE_GROUPS.reverse()) {
+    // Only C0 and C without Elite.
+    for (const ageGroup of [AgeGroup.Kids, AgeGroup.Cadets, AgeGroup.Junior, AgeGroup.Youth]) {
+      for (const experience of [Experience.C0, Experience.C]) {
+        const allMatches = [...matches.Female[ageGroup], ...matches.Male[ageGroup]]
+          .filter((boxer) => getExperienceLevel(boxer[0].fightCount) === experience)
+          .sort((a, b) => compareGender(a[0].gender, b[0].gender));
+        const sublines = allMatches.map((match) => csvLineFromMatchup(match));
+        lines = [...lines, ...sublines];
       }
     }
+
+    // Only B and A.
+    for (const ageGroup of AGE_GROUPS.reverse()) {
+      for (const experience of [Experience.B, Experience.A]) {
+        const allMatches = [...matches.Female[ageGroup], ...matches.Male[ageGroup]]
+          .filter((boxer) => getExperienceLevel(boxer[0].fightCount) === experience)
+          .sort((a, b) => compareGender(a[0].gender, b[0].gender));
+        const sublines = allMatches.map((match) => csvLineFromMatchup(match));
+        lines = [...lines, ...sublines];
+      }
+    }
+
+    // Only C0 and C Elite.
+    for (const experience of [Experience.C0, Experience.C]) {
+      const allMatches = [...matches.Female[AgeGroup.Elite], ...matches.Male[AgeGroup.Elite]]
+        .filter((boxer) => getExperienceLevel(boxer[0].fightCount) === experience)
+        .sort((a, b) => compareGender(a[0].gender, b[0].gender));
+      const sublines = allMatches.map((match) => csvLineFromMatchup(match));
+      lines = [...lines, ...sublines];
+    }
+
+    const headers = [
+      'RDEČI KOT',
+      'STAROSTNA KATEGORIJA',
+      'TEŽNOSTNA KATEGORIJA',
+      'KLASA',
+      'KLUB',
+      '',
+      'MODRI KOT',
+      'STAROSTNA KATEGORIJA',
+      'TEŽNOSTNA KATEGORIJA',
+      'KLASA',
+      'KLUB',
+    ].join(',');
+    lines = [headers, ...lines];
+    const csvContent = lines.join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+
+    link.setAttribute('href', url);
+    link.setAttribute('download', `boxing_matches_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   function clearBoxers() {
