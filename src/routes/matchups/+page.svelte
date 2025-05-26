@@ -260,7 +260,7 @@
       {/if}
     </div>
 
-    {#if boxers.length !== 0 || true}
+    {#if boxers.length !== 0}
       <div class="rounded-md shadow p-6 md:overflow-y-auto md:max-h-[90vh] bg-white space-y-6">
         <div class="space-x-4">
           <Button onclick={GetMatchups} disabled={optimizing}>
@@ -287,7 +287,7 @@
                 {#each AGE_GROUPS as ageGroup}
                   {#if matches[gender][ageGroup].length > 0}
                     <div class="my-4">
-                      <h3 class="font-bold items-center flex gap-2">
+                      <h3 class="font-bold items-center flex gap-2 mb-4">
                         {ageGroup.toUpperCase()}
                         <span
                           class="{gender === Gender.Female

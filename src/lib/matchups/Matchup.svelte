@@ -12,7 +12,7 @@
 {#if match}
   <div class="grid items-center grid-cols-5 p-2">
     <div class="col-span-2">
-      <p>{match[0].name}</p>
+      <p class="text-sm">{match[0].name}</p>
       <p class="text-xs text-gray-500 flex gap-2">
         <span>{match[0].club}</span>
         <span>{match[0].weight}kg</span>
@@ -21,7 +21,7 @@
     </div>
     <div class="col-span-1 text-sm">vs</div>
     <div class="col-span-2">
-      <p>{match[1].name}</p>
+      <p class="text-sm">{match[1].name}</p>
       <p class="text-xs text-gray-500 flex gap-2">
         <span>{match[1].club}</span>
         <span>{match[1].weight}kg</span>
