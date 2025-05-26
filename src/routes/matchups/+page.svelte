@@ -147,13 +147,18 @@
     const link = document.createElement('a');
     const url = URL.createObjectURL(blob);
 
+    const fileName = `wsg_league_${new Date().toISOString().split('T')[0]}.csv`;
     link.setAttribute('href', url);
-    link.setAttribute('download', `boxing_matches_${new Date().toISOString().split('T')[0]}.csv`);
+    link.setAttribute('download', fileName);
     link.style.visibility = 'hidden';
 
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    toast.success('CSV Exported', {
+      description: `Saved ${lines.length} in '${fileName}'.`,
+    });
   };
 
   function clearBoxers() {
@@ -325,7 +330,7 @@
             {/if}
           </Button>
 
-          {#if true}
+          {#if totalPairs > 0}
             <Button onclick={exportCSV} variant="secondary" class="">
               <FileDown class="mr-1 size-4" />
               Export</Button
