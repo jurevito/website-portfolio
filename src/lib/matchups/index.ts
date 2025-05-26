@@ -7,9 +7,9 @@ export function getAgeGroup(year: number): AgeGroup {
   if (age >= 19) return AgeGroup.Elite;
   if (age >= 17) return AgeGroup.Youth;
   if (age >= 15) return AgeGroup.Junior;
-  if (age >= 13) return AgeGroup.Kids;
+  if (age >= 13) return AgeGroup.Cadets;
 
-  return AgeGroup.Babies;
+  return AgeGroup.Kids;
 }
 
 export function isInWeightClass(
@@ -32,21 +32,34 @@ export function getExperienceLevel(numMatches: number): Experience {
 }
 
 export function getMatchupScore(boxer1: Boxer, boxer2: Boxer): number {
-  const weightDiff = Math.abs(boxer1.weight - boxer2.weight);
-  const numMatchesDiff = Math.abs(boxer1.fightCount - boxer2.fightCount);
-  const yearDiff = Math.abs(boxer1.year - boxer2.year);
-
-  // Same club.
   if (boxer1.club === boxer2.club) {
     return 1_000_000;
   }
 
-  if (getExperienceLevel(boxer1.fightCount) !== getExperienceLevel(boxer2.fightCount)) {
-    return 1_000_000;
+  const weightDiff = Math.abs(boxer1.weight - boxer2.weight);
+  const numMatchesDiff = Math.abs(boxer1.fightCount - boxer2.fightCount);
+  const yearDiff = Math.abs(boxer1.year - boxer2.year);
+
+  const exp1 = getExperienceLevel(boxer1.fightCount);
+  const exp2 = getExperienceLevel(boxer2.fightCount);
+
+  let penalty = 0;
+  if (exp1 !== exp2) {
+    if (
+      (exp1 === Experience.C0 && exp2 === Experience.C) ||
+      (exp1 === Experience.C && exp2 === Experience.C0)
+    ) {
+      penalty += 100;
+    } else {
+      return 1_000_000;
+    }
   }
 
   return (
-    normalize(weightDiff, 0, 10) + normalize(numMatchesDiff, 0, 15) + normalize(yearDiff, 0, 10)
+    normalize(weightDiff, 0, 10) +
+    normalize(numMatchesDiff, 0, 15) +
+    normalize(yearDiff, 0, 10) +
+    penalty
   );
 }
 

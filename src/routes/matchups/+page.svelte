@@ -14,6 +14,7 @@
   import {
     AGE_GROUPS,
     AgeGroup,
+    Experience,
     Gender,
     GENDERS,
     WEIGHT_CLASSES,
@@ -24,6 +25,7 @@
   import Check from 'lucide-svelte/icons/check';
   import Cross from 'lucide-svelte/icons/x';
   import Shuffle from 'lucide-svelte/icons/shuffle';
+  import { FileDown } from 'lucide-svelte';
   import Matchup from '$lib/matchups/Matchup.svelte';
   import { toast } from 'svelte-sonner';
 
@@ -36,15 +38,15 @@
       [AgeGroup.Elite]: [] as BoxingMatch[],
       [AgeGroup.Youth]: [] as BoxingMatch[],
       [AgeGroup.Junior]: [] as BoxingMatch[],
+      [AgeGroup.Cadets]: [] as BoxingMatch[],
       [AgeGroup.Kids]: [] as BoxingMatch[],
-      [AgeGroup.Babies]: [] as BoxingMatch[],
     },
     [Gender.Female]: {
       [AgeGroup.Elite]: [] as BoxingMatch[],
       [AgeGroup.Youth]: [] as BoxingMatch[],
       [AgeGroup.Junior]: [] as BoxingMatch[],
+      [AgeGroup.Cadets]: [] as BoxingMatch[],
       [AgeGroup.Kids]: [] as BoxingMatch[],
-      [AgeGroup.Babies]: [] as BoxingMatch[],
     },
   });
 
@@ -70,6 +72,36 @@
     };
     reader.readAsText(file);
   }
+
+  function csvLineFromMatchup(match: BoxingMatch): string {
+    let data: string[] = [];
+    data.push(match[0].name);
+    data.push(getAgeGroup(match[0].year));
+    data.push(match[0].weight.toFixed(0));
+    data.push(match[0].club.toUpperCase());
+
+    data.push('-');
+
+    data.push(match[1].name);
+    data.push(getAgeGroup(match[1].year));
+    data.push(match[1].weight.toFixed(0));
+    data.push(match[1].club.toUpperCase());
+
+    return data.join(',');
+  }
+
+  const exportCSV = () => {
+    let lines: string[] = [];
+    for (const ageGroup of [AgeGroup.Kids, AgeGroup.Cadets, AgeGroup.Junior, AgeGroup.Youth]) {
+      //const line = csvLineFromMatchup()
+      matches.Female[ageGroup];
+    }
+
+    for (const experience of [Experience.B, Experience.A]) {
+      for (const ageGroup of AGE_GROUPS.reverse()) {
+      }
+    }
+  };
 
   function clearBoxers() {
     boxers = [];
@@ -228,21 +260,24 @@
       {/if}
     </div>
 
-    {#if boxers.length !== 0}
+    {#if boxers.length !== 0 || true}
       <div class="rounded-md shadow p-6 md:overflow-y-auto md:max-h-[90vh] bg-white space-y-6">
-        <div class="space-y-4">
-          <Button
-            onclick={GetMatchups}
-            disabled={optimizing}
-            class="w-full sm:w-auto min-w-[12rem]"
-          >
-            <Shuffle class="mr-2 size-4" />
+        <div class="space-x-4">
+          <Button onclick={GetMatchups} disabled={optimizing}>
+            <Shuffle class="mr-1 size-4" />
             {#if optimizing}
               Optimizing...
             {:else}
               Find Matchups
             {/if}
           </Button>
+
+          {#if true}
+            <Button onclick={exportCSV} variant="secondary" class="">
+              <FileDown class="mr-1 size-4" />
+              Export</Button
+            >
+          {/if}
         </div>
 
         {#if matched}
